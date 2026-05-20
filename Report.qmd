@@ -1,27 +1,59 @@
 ---
-title: "Report"
+title: "Assignment 3 Report"
 author: "Shruti Pillai"
 format: html
 editor: visual
 ---
 
-## Quarto
+# Results
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
+```{r steup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
 ```
 
-You can add options to executable code like this
-
 ```{r}
-#| echo: false
-2 * 2
+# load data
+coffee_sales <-read_csv("Data/coffee-shop-sales.csv")
+head(coffee_sales)
+```
+```{r}
+# clean and prep data
+coffee_sales_clean <- coffee_sales %>%
+  mutate(sales = transaction_qty * unit_price)
+head(coffee_sales_clean)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## Which Location would be Most Suitable based on Sales?
+
+```{r}
+#| label: tbl-location-summary
+#| tbl-cap: "Summary statistics by store location in New York City."
+
+# overall store performance
+location_summary <- coffee_sales_clean %>%
+  group_by(store_location) %>%
+  summarise(total_sales = sum(sales),
+            total_transactions = n(),
+            total_quantity_sold = sum(transaction_qty),
+            avg_transaction_value = mean(sales, na.rm = TRUE),
+            avg_daily_sales = total_sales / n_distinct(transaction_date)) %>%
+  arrange(desc(total_sales))
+
+location_summary
+```
+
+@tbl-location-summary shows the total sales, total transactions, total quantity sold, average transaction value, and average daily sales of the three respective locations in NYC.
+
+```{r}
+#| label: fig-location-sales
+#| fig-cap: "Total sales by store location in New York City."
+ggplot(location_summary,
+       aes(x = reorder(store_location, total_sales), y = total_sales)) +
+  geom_col(fill = "brown") +
+  coord_flip() +
+  labs(title = "Total Sales by Store Location in NYC", x = "Store Location", y = "Total Sales") +
+  theme_minimal()
+```
+As shown in @fig-location-sales, **Hell's Kitchen** generated the highest total sales overall.
