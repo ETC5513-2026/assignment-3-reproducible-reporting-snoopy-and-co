@@ -2,8 +2,8 @@
 
 Group Members:
 
-*
+* Shruti Pillai
 *
 *
 
-Topic: 
+Topic: How to open the most lucrative cafe in NYC
