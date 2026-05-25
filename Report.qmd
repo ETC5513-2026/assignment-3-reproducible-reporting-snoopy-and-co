@@ -83,4 +83,25 @@ coffee_data |>
 
 @fig-productsales presents the quantity sold by product category. Coffee is the best selling product category, followed by tea. The third best selling category is bakery items; however, the difference between tea and bakery sales is significant, as bakery sold less than half of total tea sold, representing a large gap between the top two best selling categories and the rest.
 
+### Summary of data - Top 5 Best Selling Coffee in Hell's Kitchen
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| tbl-cap: "Top 5 Best Selling Coffee in Hell's Kitchen"
+#| label: tbl-top5coffee
+coffee_data |> 
+  filter(product_category == "Coffee", store_location == "Hell's Kitchen") |> 
+  group_by(product_detail) |> 
+  summarise(sales_quantity = sum(transaction_qty),
+            total_sales = sum(transaction_qty * unit_price)) |> 
+  arrange(desc(sales_quantity)) |> 
+  head(5) |> 
+  kable(col.names = c("Product Detail", "Quantity Sold", "Total Sales"))
+```
+
+As the analysis above establishes that the store in Hell's Kitchen has the highest total sales and coffee is the best selling product category, a further analysis is performed to determine the best selling coffee products for that store. 
+
+@tbl-top5coffee presents the top 5 best selling products within the coffee category for the store located in Hell's Kitchen. **Ouro Brasileiro shot** is the best selling product with the highest sales quantity, followed by **Brazilian Lg** and **Ethiopia Lg**, which are tied at second and third place respectively.
   
