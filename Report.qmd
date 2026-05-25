@@ -60,4 +60,27 @@ coffee_data |>
 
 @tbl-saleslocation presents the total quantity sold, average product price, and total sales of stores in each location. The store in Hell's Kitchen recorded the highest total sales amount among the three locations, despite having a slightly lower sales quantity compared to the store in Lower Manhattan. Nevertheless, the slightly higher average price contributed to the higher total sales figure.
 
+### Summary of data - Sales by product category
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Sales by product category"
+#| label: fig-productsales
+coffee_data |> 
+  group_by(product_category) |> 
+  summarise(sales_quantity = sum(transaction_qty)) |> 
+  ggplot(aes(x = reorder(product_category, -sales_quantity), y = sales_quantity, fill = product_category)) +
+  geom_col() +
+  geom_text(aes(label = sales_quantity), vjust = -0.5, size = 3) +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(x = "Product Category", y = "Quantity Sold") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none")
+```
+
+@fig-productsales presents the quantity sold by product category. Coffee is the best selling product category, followed by tea. The third best selling category is bakery items; however, the difference between tea and bakery sales is significant, as bakery sold less than half of total tea sold, representing a large gap between the top two best selling categories and the rest.
+
   
