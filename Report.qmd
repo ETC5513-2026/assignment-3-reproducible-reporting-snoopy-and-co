@@ -5,23 +5,145 @@ format: html
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Analysis
 
 ```{r}
-1 + 1
-```
+library(tidyverse)
+library(lubridate)
 
-You can add options to executable code like this
+potential_drinks <- readr::read_csv("Data/coffee-shop-sales.csv",
+                                    show_col_types = FALSE) |>
+  mutate(coin = transaction_qty * unit_price)
+
+potential_drinks |>
+  distinct(store_location) |>
+  arrange(store_location)
+
+hot_spot <- "Hell's Kitchen"
+hells_kitchen_sips <- potential_drinks |>
+  filter(store_location == hot_spot)
+
+crowd_faves <- hells_kitchen_sips |>
+  group_by(product_detail) |>
+  summarise(total_qty = sum(transaction_qty, na.rm = TRUE), .groups = "drop") |>
+  arrange(desc(total_qty))
+
+cash_cows <- hells_kitchen_sips |>
+  group_by(product_detail) |>
+  summarise(total_revenue = sum(coin, na.rm = TRUE), .groups = "drop") |>
+  arrange(desc(total_revenue))
+
+crowd_faves
+cash_cows
+
+names(potential_drinks)
+glimpse(potential_drinks)
+str(potential_drinks)
+```
 
 ```{r}
-#| echo: false
-2 * 2
-```
+drink_summary <- crowd_faves |>
+  left_join(cash_cows, by = "product_detail")
 
-The `echo: false` option disables the printing of code (only output is displayed).
+top10 <- drink_summary |>
+  arrange(desc(total_revenue)) |>
+  slice_head(n = 10) |>
+  mutate(product_detail = fct_reorder(product_detail, total_revenue))
+
+p <- ggplot(top10, aes(x = total_revenue, y = product_detail)) +
+  geom_col(fill = "#2C3E50") +
+  scale_x_continuous(labels = scales::dollar_format(prefix = "$")) +
+  labs(
+    title = "Hell's Kitchen: Top 10 Drinks by Total Revenue",
+    x = "Total revenue (USD)",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 12)
+
+p
+
+tab <- drink_summary |>
+  arrange(desc(total_revenue)) |>
+  slice_head(n = 10) |>
+  transmute(
+    drink = product_detail,
+    total_quantity = total_qty,
+    total_revenue = total_revenue
+  )
+top10_pop <- drink_summary |>
+  arrange(desc(total_qty)) |>
+  slice_head(n = 10) |>
+  mutate(product_detail = fct_reorder(product_detail, total_qty))
+
+p_pop <- ggplot(top10_pop, aes(x = total_qty, y = product_detail)) +
+  geom_col(fill = "#2C3E50") +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    title = "Hell's Kitchen: Top 10 drinks by Popularity",
+    x = "Total quantity sold",
+    y = NULL
+  ) +
+  theme_minimal(base_size = 12)
+
+p_pop
+
+tab_pop <- drink_summary |>
+  arrange(desc(total_qty)) |>
+  slice_head(n = 10) |>
+  transmute(
+    drink = product_detail,
+    total_quantity = total_qty,
+    total_revenue = total_revenue
+  )
+
+knitr::kable(
+  tab_pop,
+  caption = "Top 10 drinks by total quantity sold (Hell's Kitchen)",
+  digits = 2
+)
+
+readr::write_csv(
+  tab_pop,
+  file.path(out_dir, "hells_kitchen_top10_popularity_table.csv")
+)
+
+ggsave(
+  filename = file.path(out_dir, "hells_kitchen_top10_popularity_bar.png"),
+  plot = p_pop,
+  width = 10, height = 6, dpi = 300
+)
+
+knitr::kable(
+  tab,
+  caption = "Top 10 Drinks by Total Revenue (Hell's Kitchen)",
+  digits = 2
+)
+
+out <- "outputs"
+dir.create(out, showWarnings = FALSE)
+
+ggsave(
+  filename = file.path(out, "hells_kitchen_top10_revenue_bar.png"),
+  plot = p,
+  width = 10, height = 6, dpi = 300
+)
+
+readr::write_csv(
+  tab,
+  file.path(out, "hells_kitchen_top10_revenue_table.csv")
+)
+
+fan_fave_1 <- crowd_faves |> slice_head(n = 1)
+top_rev_1  <- cash_cows   |> slice_head(n = 1)
+
+results_text <- paste0(
+  "Hell’s Kitchen results: the most popular drink was ",
+  fan_fave_1$product_detail, " (n = ", fan_fave_1$total_qty, " units). ",
+  "The most lucrative drink was ", top_rev_1$product_detail,
+  " (total revenue = $", round(top_rev_1$total_revenue, 2), "). ",
+  "Overall, some drinks performed strongly on both metrics (e.g., Brazilian Lg and Ethiopia Lg), ",
+  "suggesting they are both widely purchased and commercially important."
+)
+
+writeLines(results_text, file.path(out, "hells_kitchen_results.txt"))
+```

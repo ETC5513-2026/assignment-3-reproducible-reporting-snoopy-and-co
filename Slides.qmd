@@ -4,21 +4,51 @@ format: revealjs
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
-
-## Bullets
-
-When you click the **Render** button a document will be generated that includes:
-
-- Content authored with markdown
-- Output from executable code
-
-## Code
-
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+```{r}
+knitr::include_graphics("outputs/hells_kitchen_top10_revenue_bar.png")
+```
 
 ```{r}
-1 + 1
+tab <- readr::read_csv(
+  "outputs/hells_kitchen_top10_revenue_table.csv",
+  show_col_types = FALSE
+)
+```
+
+---
+
+```{r}
+knitr::kable(
+  tab,
+  caption = "Top 10 drinks by total revenue (Hell's Kitchen)",
+  digits = 2
+)
+```
+
+---
+
+```{r}
+knitr::include_graphics("outputs/hells_kitchen_top10_popularity_bar.png")
+```
+
+---
+
+```{r}
+tab_pop <- readr::read_csv(
+  "outputs/hells_kitchen_top10_popularity_table.csv",
+  show_col_types = FALSE
+)
+
+knitr::kable(
+tab_pop,
+caption = "Top 10 drinks by total quantity sold (Hell's Kitchen)",
+digits = 2
+)
+```
+
+---
+
+```{r}
+cat(readLines("outputs/hells_kitchen_results.txt"), sep = "\n")
+
 ```
