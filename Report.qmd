@@ -39,6 +39,25 @@ coffee_data <- coffee_data |>
   mutate(transaction_date = as_date(transaction_date, format = "%d/%m/%Y"))
 ```
 
+Following the goal of determining the best location and best selling products, the relationship between product category, product details, sales quantity, unit price, and store location is explored.
 
+### Summary of data - Sales by location
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| tbl-cap: "Total sales and quantity sold by store location"
+#| label: tbl-saleslocation
+coffee_data |> 
+  group_by(store_location) |> 
+  summarise(sales_quantity = sum(transaction_qty),
+            avg_price = round(sum(transaction_qty * unit_price) / sum(transaction_qty), 2),
+            total_sales = sum(transaction_qty * unit_price)) |> 
+  arrange(desc(total_sales)) |> 
+  kable(col.names = c("Store Location", "Quantity Sold", "Average Price", "Total Sales"))
+```
+
+@tbl-saleslocation presents the total quantity sold, average product price, and total sales of stores in each location. The store in Hell's Kitchen recorded the highest total sales amount among the three locations, despite having a slightly lower sales quantity compared to the store in Lower Manhattan. Nevertheless, the slightly higher average price contributed to the higher total sales figure.
 
   
