@@ -5,25 +5,40 @@ format: html
 editor: visual
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+library(lubridate)
 ```
 
-You can add options to executable code like this
+```{r}
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
+```
+
+## Methodology
+
+Before the data is used for analysis, a data cleaning process is performed. All variables are checked for missing values and no missing values are found across the dataset, thus no further action was taken. Next, the class of each variable is verified. The **transaction_date** variable, which contains date information, was stored as a character string and was therefore mutated to a date format to allow for further analysis.
 
 ```{r}
 #| echo: false
-2 * 2
+#| output: false
+summary(coffee_data)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+#| echo: false
+#| output: false
+glimpse(coffee_data)
+```
 
-Ana
+```{r}
+#| echo: false
+#| output: false
+coffee_data <- coffee_data |> 
+  mutate(transaction_date = as_date(transaction_date, format = "%d/%m/%Y"))
+```
+
+
+
+  
