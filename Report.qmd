@@ -35,19 +35,28 @@ To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Mav
 
 # Methodology
 
+## Executive Summary
+
+## Introduction
+
+The central problem addressed in this report is how a new café can choose a location and initial product offering that maximises early sales and customer engagement. The report focuses on two key objectives: identifying the location with the strongest potential for expansion, and determining which product should be prioritised at launch. Together, these findings will support strategic decision‑making for launching a new café with the highest likelihood of early success.
+
+## Dataset Introduction
+
+To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Maven Analytics, which provides detailed transaction‑level information across multiple existing stores. The dataset includes `r nrow(coffee_data)` rows and `r ncol(coffee_data)` columns, representing a large volume of customer purchase activity. Key variables include numeric identifiers such as `transaction_id`, `store_id`, and `product_id`, which uniquely identify each transaction, store, and product. Temporal variables include `transaction_date` (stored as character) and `transaction_time` (stored as a time object), capturing when each purchase occurred. Measures of customer behaviour are represented through `transaction_qty`, a numeric variable indicating the number of items purchased per transaction. Categorical variables (stored as character) such as `store_location`, `product_category`, `product_type`, and `product_detail` describe where the transaction took place and the type of product purchased. Together, these variables provide a rich foundation for analysing sales patterns across locations and product categories.
+
+## Methodology
+
 Before the data is used for analysis, a data cleaning process is performed. All variables are checked for missing values and no missing values are found across the dataset, thus no further action was taken. Next, the class of each variable is verified. The **transaction_date** variable, which contains date information, was stored as a character string and was therefore mutated to a date format to allow for further analysis.
 
 ```{r}
-#| output: false
-summary(coffee_data)
-```
-
-```{r}
+#| echo: false
 #| output: false
 glimpse(coffee_data)
 ```
 
 ```{r}
+#| echo: false
 #| output: false
 coffee_data <- coffee_data |> 
   mutate(transaction_date = as_date(transaction_date, format = "%d/%m/%Y"))
@@ -58,6 +67,9 @@ Following the goal of determining the best location and best selling products, t
 ## Summary of data - Sales by location
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 #| tbl-cap: "Total sales and quantity sold by store location"
 #| label: tbl-saleslocation
 coffee_data |> 
@@ -74,6 +86,9 @@ coffee_data |>
 ## Summary of data - Sales by product category
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 #| fig-cap: "Sales by product category"
 #| label: fig-productsales
 coffee_data |> 
@@ -91,47 +106,131 @@ coffee_data |>
 
 @fig-productsales presents the quantity sold by product category. Coffee is the best selling product category, followed by tea. The third best selling category is bakery items; however, the difference between tea and bakery sales is significant, as bakery sold less than half of total tea sold, representing a large gap between the top two best selling categories and the rest.
 
+
 # Results
 
-```{r}
-# clean and prep data
-coffee_sales_clean <- coffee_data %>%
+```{r, include=FALSE}
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
+
+# prep data
+coffee_data <- coffee_data %>%
+  mutate(transaction_date = dmy(transaction_date))
+
+coffee_sales <- coffee_data %>%
   mutate(sales = transaction_qty * unit_price)
-head(coffee_sales_clean)
+
+coffee_sales_clean <- coffee_sales %>%
+  mutate(month = floor_date(transaction_date, "month"))
 ```
 
 ## Which Location would be Most Suitable based on Sales?
 
+### Overall Store Performance
+
 ```{r}
 #| label: tbl-location-summary
 #| tbl-cap: "Summary statistics by store location in New York City."
+#| eval: true
+#| echo: false
 
-# overall store performance
-location_summary <- coffee_sales_clean %>%
+location_summary <- coffee_sales %>%
   group_by(store_location) %>%
   summarise(total_sales = sum(sales),
             total_transactions = n(),
             total_quantity_sold = sum(transaction_qty),
             avg_transaction_value = mean(sales, na.rm = TRUE),
             avg_daily_sales = total_sales / n_distinct(transaction_date)) %>%
-  arrange(desc(total_sales))
+  arrange(desc(total_sales)) 
 
-location_summary
+location_summary %>%
+  kable(col.names = c("Store Location", "Total Sales", "Total Transactions", "Total Quantity Sold", "Average Transaction Value", "Average Daily Sales"))
 ```
 
-@tbl-location-summary shows the total sales, total transactions, total quantity sold, average transaction value, and average daily sales of the three respective locations in NYC.
+@tbl-location-summary presents the overall performance metrics across all three NYC locations for the six-month period.
+
+1.  *Hell's Kitchen* led on total sales (\$236,511), total transactions (50,735), and average daily sales (\$1,306.69), suggesting it attracts the highest volume of customers consistently.
+2.  *Astoria* came in second, recording \$232,244 in total sales and an average daily sales figure of \$1,283.12.
+3.  *Lower Manhattan* ranked third in total sales (\$230,057) and had the fewest transactions (47,782), but has the highest average transaction value at \$4.81 (which is interestingly higher than that of Hell's Kitchen (\$4.66) and Astoria (\$4.59)). This implies that while Lower Manhattan sees less foot traffic, customers there tend to spend more per visit, potentially suggesting more premium drinks or a higher-income demographic.
+
+Across all three locations, the differences in total sales are narrow - spanning just \~\$6,500 from top to bottom - indicating a broadly competitive and fairly matched market.
+
+Similarly, total quantity sold was nearly identical between Hell's Kitchen (71,737) and Lower Manhattan (71,742) despite Lower Manhattan having \~3,000 fewer transactions, further supporting the pattern of higher spend-per-visit in that location.
+
+### Total Sales by Store Location in NYC
 
 ```{r}
 #| label: fig-location-sales
-#| fig-cap: "Total sales by store location in New York City."
+#| eval: true
+#| echo: false
 ggplot(location_summary,
        aes(x = reorder(store_location, total_sales), y = total_sales)) +
   geom_col(fill = "brown") +
-  coord_flip() +
+  coord_flip(xlim = NULL, ylim = c(220000, 240000)) +
   labs(title = "Total Sales by Store Location in NYC", x = "Store Location", y = "Total Sales") +
   theme_minimal()
 ```
-As shown in @fig-location-sales, **Hell's Kitchen** generated the highest total sales overall.
+
+@fig-location-sales shows the total sales across the six-month period are similar across all three locations, with **Hell's Kitchen leading, followed by Astoria and Lower Manhattan**.
+
+### Monthly Sales Trends
+
+```{r}
+#| label: fig-monthly-sales
+#| eval: true
+#| echo: false
+monthly_sales <- coffee_sales_clean %>%
+  group_by(month, store_location) %>%
+  summarise(monthly_sales = sum(sales), .groups = "drop")
+
+ggplot(monthly_sales, aes(x = month, y = monthly_sales, colour = store_location)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  labs(title = "Monthly Sales Trends by Store Location in NYC",
+       x = "Month",
+       y = "Monthly Sales ($)") +
+  theme_minimal()
+```
+
+@fig-monthly-sales reveals a **consistent and strong upward trajectory in sales** across all three locations from January to June. All stores dipped slightly in February before recovering and rising gradually to June. This seasonal period likely reflects increased foot traffic in the warmer months, where customers are more likely to leave their homes and visit coffee shops.
+
+By June, Hell's Kitchen pulled ahead with the highest monthly sales (\~\$57,000), followed by Astoria (\~\$55,500) and Lower Manhattan (\~\$54,500). The convergence of all three lines through March and April indicates similar demand between all three locations during these months, while the slight divergence in May to June suggests **Hell's Kitchen has a modest but growing edge heading into summer**.
+
+### Peak-Hour Demand Analysis
+
+```{r}
+#| label: fig-hourly-sales
+#| eval: true
+#| echo: false
+
+coffee_sales_clean <- coffee_sales_clean %>%
+  mutate(hour = hour(transaction_time))
+
+hourly_sales <- coffee_sales_clean %>%
+  group_by(store_location, hour) %>%
+  summarise(sales = sum(sales),
+            .groups = "drop")
+
+ggplot(hourly_sales, aes(x = hour, y = sales, colour = store_location)) +
+  geom_line(linewidth = 1) +
+  labs(title = "Hourly Sales Patterns by Store Location in NYC", 
+       x = "Hour of Day",
+       y = "Sales ($)") +
+  theme_minimal()
+```
+
+As shown in @fig-hourly-sales, **all three locations experience the same morning peak**, with sales increasing between 7 to 10 AM. Hell's Kitchen and Lower Manhattan both reached peaks exceeding \$30,000 in sales during this time period, aligning with the high foot traffic from morning commuters. After 10 AM, Hell's Kitchen and Lower Manhattan decline steeply, while Astoria maintains a more stable sales curve throughout the day, with sales ranging over \$15,000 to \$17,000, suggesting a more consistent, neighbourhood-driven customer base rather than commuter-dependent.
+
+Lower Manhattan drops to nearly \$0 by 8 PM, and Hell's Kitchen follows a similar pattern, indicating that these locations are correlated with commuter and office traffic. On the other hand, Astoria sustains sales throughout the evening.
+
+### Conclusion
+
+This analysis examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns.
+
+All three locations performed similarly in aggregate, with total sales differing by less than 3% over the six-month period. Monthly trends were consistent across locations, with a dip in February followed by sustained growth through to June, indicating that seasonal demand, rather than location-specific factors, is the dominant driver of revenue fluctuations.
+
+However, there are meaningful differences to note: Hell's Kitchen and Lower Manhattan both exhibited sharp morning peaks, with sales concentrated heavily in the 7 to 10 AM window and declining steeply after, pointing to a strong dependence on commuter and office-worker traffic. Astoria, on the other hand, maintained a flatter and more stable sales curve throughout the day, suggesting a loyal neighbourhood-based customer base that generates consistent demand across multiple days.
+
+Taking all findings together, **Astoria is recommended as the strongest candidate for a new café**. Even though Hell's Kitchen seems the best when it comes to raw total sales and daily averages, its revenue is heavily peak-dependent, which introduces operational risk during off-peak hours. Astoria's more evenly distributed demand, competitive overall sales, and neighbourhood-driven patronage provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
 
 ## Optimal Menu Recommendations
 
@@ -229,3 +328,4 @@ knitr::kable(tab_pop, digits = 2)
 
 
 Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
+
