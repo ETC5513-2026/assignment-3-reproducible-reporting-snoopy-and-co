@@ -83,48 +83,5 @@ coffee_data |>
 
 @fig-productsales presents the quantity sold by product category. Coffee is the best selling product category, followed by tea. The third best selling category is bakery items; however, the difference between tea and bakery sales is significant, as bakery sold less than half of total tea sold, representing a large gap between the top two best selling categories and the rest.
 
-### Summary of data - Top 5 Best Selling Coffee in Hell's Kitchen
 
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| tbl-cap: "Top 5 Best Selling Coffee in Hell's Kitchen"
-#| label: tbl-top5coffee
-coffee_data |> 
-  filter(product_category == "Coffee", store_location == "Hell's Kitchen") |> 
-  group_by(product_detail) |> 
-  summarise(sales_quantity = sum(transaction_qty),
-            total_sales = sum(transaction_qty * unit_price)) |> 
-  arrange(desc(sales_quantity)) |> 
-  head(5) |> 
-  kable(col.names = c("Product Detail", "Quantity Sold", "Total Sales"))
-```
 
-As the analysis above establishes that the store in Hell's Kitchen has the highest total sales and coffee is the best selling product category, a further analysis is performed to determine the best selling coffee products for that store. 
-
-@tbl-top5coffee presents the top 5 best selling products within the coffee category for the store located in Hell's Kitchen. **Ouro Brasileiro shot** is the best selling product with the highest sales quantity, followed by **Brazilian Lg** and **Ethiopia Lg**, which are tied at second and third place respectively.
-
-### Summary of data - Top 5 Highest Income Products in Hell's Kitchen
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| tbl-cap: "Top 5 Highest Income Products in Hell's Kitchen"
-#| label: tbl-top5product
-coffee_data |> 
-  filter(store_location == "Hell's Kitchen") |> 
-  group_by(product_detail, product_category) |> 
-  summarise(sales_quantity = sum(transaction_qty),
-            total_sales = sum(transaction_qty * unit_price),
-            average_price = round(sum(transaction_qty * unit_price) / sum(transaction_qty), 2)) |> 
-  arrange(desc(total_sales)) |> 
-  head(5) |> 
-  kable(col.names = c("Product Detail", "Product Category", "Quantity Sold", "Total Sales", "Average Price"))
-```
-
-A further analysis is performed to determine the products generating the highest income, providing insight into the relationship between price and total sales. This explores an additional contributing factor to revenue beyond sales volume alone. 
-
-@tbl-top5product presents the top 5 products generating the highest total sales for the store located in Hell's Kitchen, across all product categories. Civet Cat, a coffee beans product, ranks first in total sales as its average price is significantly higher than other products such as coffee or tea, demonstrating that price plays a key role in driving total revenue.
-  

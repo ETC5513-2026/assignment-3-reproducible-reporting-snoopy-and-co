@@ -3,22 +3,40 @@ title: "Slides"
 format: revealjs
 editor: visual
 ---
-
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished presentation. To learn more about Quarto presentations see <https://quarto.org/docs/presentations/>.
-
-## Bullets
-
-When you click the **Render** button a document will be generated that includes:
-
-- Content authored with markdown
-- Output from executable code
-
-## Code
-
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Store Location Analysis
 
 ```{r}
-1 + 1
+#| echo: false
+#| warning: false
+#| message: false
+#| tbl-cap: "Total sales and quantity sold by store location"
+#| label: tbl-saleslocation
+coffee_data |> 
+  group_by(store_location) |> 
+  summarise(sales_quantity = sum(transaction_qty),
+            avg_price = round(sum(transaction_qty * unit_price) / sum(transaction_qty), 2),
+            total_sales = sum(transaction_qty * unit_price)) |> 
+  arrange(desc(total_sales)) |> 
+  kable(col.names = c("Store Location", "Quantity Sold", "Average Price", "Total Sales"))
+```
+
+## Product Category Analysis
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| fig-cap: "Sales by product category"
+#| label: fig-productsales
+coffee_data |> 
+  group_by(product_category) |> 
+  summarise(sales_quantity = sum(transaction_qty)) |> 
+  ggplot(aes(x = reorder(product_category, -sales_quantity), y = sales_quantity, fill = product_category)) +
+  geom_col() +
+  geom_text(aes(label = sales_quantity), vjust = -0.5, size = 3) +
+  scale_fill_brewer(palette = "Paired") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(x = "Product Category", y = "Quantity Sold") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+      legend.position = "none")
 ```
