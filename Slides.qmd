@@ -54,14 +54,17 @@ data_dict <- tibble(
 kable(data_dict)
 ```
 
+## Data cleaning process
+
+- Check for missing values.
+- Convert date column from character string to date format.
+
 ## Store Location Analysis
 
 ```{r}
 #| echo: false
 #| warning: false
 #| message: false
-#| tbl-cap: "Total sales and quantity sold by store location"
-#| label: tbl-saleslocation
 coffee_data |> 
   group_by(store_location) |> 
   summarise(sales_quantity = sum(transaction_qty),
@@ -77,7 +80,6 @@ coffee_data |>
 #| echo: false
 #| warning: false
 #| message: false
-#| fig-cap: "Sales by product category"
 coffee_data |> 
   group_by(product_category) |> 
   summarise(sales_quantity = sum(transaction_qty)) |> 
