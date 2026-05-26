@@ -3,7 +3,8 @@
 Group Members:
 
 * Shruti Pillai
-*
-*
+* Thunchanok Udomittipong
+* Nattamon Wattanapenpaiboon
+* Caryn Kesuma
 
-Topic: How to open the most lucrative cafe in NYC
+Topic: Market Analysis of Optimal Locations and Product Demand for a Coffee Shop in New York City
