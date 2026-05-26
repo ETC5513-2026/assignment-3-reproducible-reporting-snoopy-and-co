@@ -14,12 +14,13 @@ execute:
   echo: false
   warning: false
   message: false
+bibliography: references.bib
 ---
 
 ```{r}
 library(tidyverse)
 library(ggplot2)
-library(kableExtra)
+library(knitr)
 library(lubridate)
 coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 ```
@@ -229,3 +230,14 @@ knitr::kable(tab_pop, digits = 2)
 
 
 Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
+
+# References
+Free Sample Dataset Download - Coffee Shop Sales - Maven Analytics | Build Data Skills, Faster. https://mavenanalytics.io/data-playground/coffee-shop-sales. Accessed 21 May 2026.
+
+::: {.hidden}
+@tidyverse
+@ggplot2
+@knitr
+@lubridate
+::: 
+

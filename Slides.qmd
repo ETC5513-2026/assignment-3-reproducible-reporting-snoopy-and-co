@@ -33,9 +33,10 @@ How can a new café choose a location and initial product offering that maximise
 
 Together, these findings will support strategic decision‑making for launching a new café with the highest likelihood of early success.
 
-## Dataset Introduction
+## Dataset Introduction {.small-slide}
 
 ```{r}
+#| eval: false
 data_dict <- tibble(
   variable = names(coffee_data),
   type = sapply(coffee_data, class),
@@ -53,6 +54,10 @@ data_dict <- tibble(
                          ))
 kable(data_dict)
 ```
+```{r}
+knitr::include_graphics("Slides_files/figure-revealjs/data-dict.png")
+```
+
 
 ## Data cleaning process
 
@@ -62,9 +67,7 @@ kable(data_dict)
 ## Store Location Analysis
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
+
 coffee_data |> 
   group_by(store_location) |> 
   summarise(sales_quantity = sum(transaction_qty),
@@ -77,9 +80,7 @@ coffee_data |>
 ## Product Category Analysis
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
+
 coffee_data |> 
   group_by(product_category) |> 
   summarise(sales_quantity = sum(transaction_qty)) |> 
@@ -99,9 +100,7 @@ coffee_data |>
 The revenue in Hell's Kitchen is concentrated in a small set of drinks (see figure below). The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
+
 #| out-width: "100%"
 
 knitr::include_graphics("outputs/hells_kitchen_top10_revenue_bar.png")
@@ -113,9 +112,7 @@ knitr::include_graphics("outputs/hells_kitchen_top10_revenue_bar.png")
 - High-revenue but lower-quantity drinks are good “premium/upsell” options.
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
+
 #| out-width: "100%"
 
 tab_rev <- readr::read_csv(
