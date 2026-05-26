@@ -150,8 +150,8 @@ knitr::kable(
 ---
 
 ## Results
-- Most popular drink: ouro brasileiro shot (1,854 units).
-- Most lucrative drink: civet cat ($7,380 total revenue).
-- Overlap items (popular + lucrative) are safest staples (e.g., brazilian lg, ethiopia lg).
+- Most popular drink: Ouro Brasileiro shot (1,854 units).
+- Most lucrative drink: Civet Cat ($7,380 total revenue).
+- Overlap items (popular + lucrative) are safest staples (e.g., Brazilian lg, Ethiopia lg).
 - Premium items can drive revenue without top volume (use for upsells).
 - Overall menu strategy: prioritise overlap winners + keep a small premium set.
