@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 title: "Identifying High‑Value Locations and Best‑Selling Products"
 subtitle: "An Analysis of Coffee Shop Sales Data"
 author:
@@ -10,10 +11,6 @@ format:
   pdf:
     toc: true
     number-sections: true
-editor: visual
-execute: 
-  echo: false
-  warning: false
 ---
 
 ```{r}
@@ -99,4 +96,59 @@ coffee_data |>
 ```
 
 @fig-productsales presents the quantity sold by product category. Coffee is the best selling product category, followed by tea. The third best selling category is bakery items; however, the difference between tea and bakery sales is significant, as bakery sold less than half of total tea sold, representing a large gap between the top two best selling categories and the rest.
+
+=======
+# Results
+
+```{r steup, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+```
+
+```{r}
+# load data
+coffee_sales <-read_csv("Data/coffee-shop-sales.csv")
+head(coffee_sales)
+```
+
+```{r}
+# clean and prep data
+coffee_sales_clean <- coffee_sales %>%
+  mutate(sales = transaction_qty * unit_price)
+head(coffee_sales_clean)
+```
+
+## Which Location would be Most Suitable based on Sales?
+
+```{r}
+#| label: tbl-location-summary
+#| tbl-cap: "Summary statistics by store location in New York City."
+
+# overall store performance
+location_summary <- coffee_data %>%
+  group_by(store_location) %>%
+  summarise(total_sales = sum(sales),
+            total_transactions = n(),
+            total_quantity_sold = sum(transaction_qty),
+            avg_transaction_value = mean(sales, na.rm = TRUE),
+            avg_daily_sales = total_sales / n_distinct(transaction_date)) %>%
+  arrange(desc(total_sales))
+
+location_summary
+```
+
+@tbl-location-summary shows the total sales, total transactions, total quantity sold, average transaction value, and average daily sales of the three respective locations in NYC.
+
+```{r}
+#| label: fig-location-sales
+#| fig-cap: "Total sales by store location in New York City."
+ggplot(location_summary,
+       aes(x = reorder(store_location, total_sales), y = total_sales)) +
+  geom_col(fill = "brown") +
+  coord_flip() +
+  labs(title = "Total Sales by Store Location in NYC", x = "Store Location", y = "Total Sales") +
+  theme_minimal()
+```
+As shown in @fig-location-sales, **Hell's Kitchen** generated the highest total sales overall.
 
