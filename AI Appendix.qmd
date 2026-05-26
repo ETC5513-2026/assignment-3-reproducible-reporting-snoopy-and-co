@@ -1,0 +1,19 @@
+---
+title: "AI Appendix"
+author:
+- "Caryn Kesuma"
+- "Shruti Pillai"
+- "Nattamon Wattanapenpaiboon"
+- "Thunchanok Udomittipong"
+format: 
+  pdf: 
+      toc: false
+---
+
+AI was used to support the communication aspects of this assignment and as a supplementary learning tool, primarily for coding. Specifically, AI was used to:
+
+- Conduct grammar checks and logical checks to ensure explanations were clearly conveyed and that key points were communicated as intended.
+
+- Assist with R coding by providing explanations and examples of how to use specific functions (e.g., building plot layers), and by identifying minor errors such as missing quotation marks. AI also offered guidance on formatting prior to rendering HTML and PDF files, including resizing figures and adjusting text justification to improve readability.
+
+AI did not select variables, create figures or tables, conduct analysis, or generate written content. All decisions, interpretations, and final outputs are entirely our own work.
