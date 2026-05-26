@@ -10,6 +10,10 @@ format:
   pdf:
     toc: true
     number-sections: true
+execute: 
+  echo: false
+  warning: false
+  message: false
 ---
 
 ```{r}
@@ -34,19 +38,16 @@ To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Mav
 Before the data is used for analysis, a data cleaning process is performed. All variables are checked for missing values and no missing values are found across the dataset, thus no further action was taken. Next, the class of each variable is verified. The **transaction_date** variable, which contains date information, was stored as a character string and was therefore mutated to a date format to allow for further analysis.
 
 ```{r}
-#| echo: false
 #| output: false
 summary(coffee_data)
 ```
 
 ```{r}
-#| echo: false
 #| output: false
 glimpse(coffee_data)
 ```
 
 ```{r}
-#| echo: false
 #| output: false
 coffee_data <- coffee_data |> 
   mutate(transaction_date = as_date(transaction_date, format = "%d/%m/%Y"))
@@ -57,9 +58,6 @@ Following the goal of determining the best location and best selling products, t
 ### Summary of data - Sales by location
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
 #| tbl-cap: "Total sales and quantity sold by store location"
 #| label: tbl-saleslocation
 coffee_data |> 
@@ -76,9 +74,6 @@ coffee_data |>
 ### Summary of data - Sales by product category
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
 #| fig-cap: "Sales by product category"
 #| label: fig-productsales
 coffee_data |> 
@@ -141,21 +136,14 @@ As shown in @fig-location-sales, **Hell's Kitchen** generated the highest total 
 ## Optimal Menu Recommendations
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
 #| output: false
 
-coffee_data <- readr::read_csv("Data/coffee-shop-sales.csv",
-                                    show_col_types = FALSE) |>
-  mutate(coin = transaction_qty * unit_price)
-
-coffee_data |>
+coffee_sales_clean |>
   distinct(store_location) |>
   arrange(store_location)
 
 hot_spot <- "Hell's Kitchen"
-hells_kitchen_sips <- coffee_data |>
+hells_kitchen_sips <- coffee_sales_clean |>
   filter(store_location == hot_spot)
 
 crowd_faves <- hells_kitchen_sips |>
@@ -165,31 +153,36 @@ crowd_faves <- hells_kitchen_sips |>
 
 cash_cows <- hells_kitchen_sips |>
   group_by(product_detail) |>
-  summarise(total_revenue = sum(coin, na.rm = TRUE), .groups = "drop") |>
+  summarise(total_revenue = sum(sales, na.rm = TRUE), .groups = "drop") |>
   arrange(desc(total_revenue))
 
 crowd_faves
 cash_cows
 
-names(coffee_data)
-glimpse(coffee_data)
-str(coffee_data)
+names(coffee_sales_clean)
+glimpse(coffee_sales_clean)
+str(coffee_sales_clean)
 ```
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
 
-coffee_data <- crowd_faves |>
+coffee_sales_clean <- crowd_faves |>
   left_join(cash_cows, by = "product_detail")
 
-top10 <- coffee_data |>
+top10 <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
   slice_head(n = 10) |>
   mutate(product_detail = fct_reorder(product_detail, total_revenue))
 
-p <- ggplot(top10, aes(x = total_revenue, y = product_detail)) +
+```
+
+
+```{r}
+#| label: fig-hk-rev
+#| fig-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+#| fig-pos: "H"
+
+ggplot(top10, aes(x = total_revenue, y = product_detail)) +
   geom_col(fill = "#2C3E50") +
   scale_x_continuous(labels = scales::dollar_format(prefix = "$")) +
   labs(
@@ -198,8 +191,15 @@ p <- ggplot(top10, aes(x = total_revenue, y = product_detail)) +
     y = NULL
   ) +
   theme_minimal(base_size = 12)
+```
 
-tab_rev <- coffee_data |>
+As shown in @fig-hk-rev, total revenue in Hell’s Kitchen is concentrated among a small set of drinks, with a clear drop-off after the top-ranked items. The highest-earning products include premium coffees and larger-size beverages, suggesting that both higher unit prices and steady demand contribute to revenue. This figure highlights the key drivers of takings and provides an evidence-based starting point for deciding which drinks should be prioritised for menu placement and promotion.
+
+```{r}
+#| label: tbl-hk-rev
+#| tbl-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+
+tab_rev <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
   slice_head(n = 10) |>
   transmute(
@@ -208,7 +208,14 @@ tab_rev <- coffee_data |>
     total_revenue = total_revenue
   )
 
-tab_pop <- coffee_data |>
+knitr::kable(tab_rev, digits = 2)
+```
+
+```{r}
+#| label: tbl-hk-pop
+#| tbl-cap: "top 10 drinks by total quantity sold (hell’s kitchen)"
+
+tab_pop <- coffee_sales_clean |>
   arrange(desc(total_qty)) |>
   slice_head(n = 10) |>
   transmute(
@@ -216,32 +223,6 @@ tab_pop <- coffee_data |>
     total_quantity = total_qty,
     total_revenue = total_revenue
   )
-```
-
-
-```{r}
-#| label: fig-hk-rev
-#| fig-cap: "top 10 drinks by total revenue (hell’s kitchen)"
-#| echo: false
-#| fig-pos: "H"
-
-p
-```
-
-As shown in @fig-hk-rev, total revenue in Hell’s Kitchen is concentrated among a small set of drinks, with a clear drop-off after the top-ranked items. The highest-earning products include premium coffees and larger-size beverages, suggesting that both higher unit prices and steady demand contribute to revenue. This figure highlights the key drivers of takings and provides an evidence-based starting point for deciding which drinks should be prioritised for menu placement and promotion.
-
-```{r}
-#| label: tbl-hk-rev
-#| tbl-cap: "top 10 drinks by total revenue (hell’s kitchen)"
-#| echo: false
-
-knitr::kable(tab_rev, digits = 2)
-```
-
-```{r}
-#| label: tbl-hk-pop
-#| tbl-cap: "top 10 drinks by total quantity sold (hell’s kitchen)"
-#| echo: false
 
 knitr::kable(tab_pop, digits = 2)
 ```
