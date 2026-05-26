@@ -1,27 +1,32 @@
 ---
-title: "Report"
-author: "Shruti Pillai"
-format: html
+title: "Identifying High‑Value Locations and Best‑Selling Products"
+subtitle: "An Analysis of Coffee Shop Sales Data"
+author:
+- "Caryn Kesuma"
+- "Shruti Pillai"
+- "Nattamon Wattanapenpaiboon"
+- "Thunchanok Udomittipong"
+format: 
+  pdf:
+    toc: true
+    number-sections: true
 editor: visual
+execute: 
+  echo: false
+  warning: false
 ---
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
 ```{r}
-1 + 1
+library(tidyverse)
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 ```
 
-You can add options to executable code like this
 
-```{r}
-#| echo: false
-2 * 2
-```
+## Executive Summary
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## Introduction
+The central problem addressed in this report is how a new café can choose a location and initial product offering that maximises early sales and customer engagement. The report focuses on two key objectives: identifying the location with the strongest potential for expansion, and determining which product should be prioritised at launch. Together, these findings will support strategic decision‑making for launching a new café with the highest likelihood of early success.
+
+## Dataset Introduction
+To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Maven Analytics, which provides detailed transaction‑level information across multiple existing stores. The dataset includes `r nrow(coffee_data)` rows and `r ncol(coffee_data)` columns, representing a large volume of customer purchase activity. Key variables include numeric identifiers such as `transaction_id`, `store_id`, and `product_id`, which uniquely identify each transaction, store, and product. Temporal variables include `transaction_date` (stored as character) and `transaction_time` (stored as a time object), capturing when each purchase occurred. Measures of customer behaviour are represented through `transaction_qty`, a numeric variable indicating the number of items purchased per transaction. Categorical variables (stored as character) such as `store_location`, `product_category`, `product_type`, and `product_detail` describe where the transaction took place and the type of product purchased. Together, these variables provide a rich foundation for analysing sales patterns across locations and product categories.
+
