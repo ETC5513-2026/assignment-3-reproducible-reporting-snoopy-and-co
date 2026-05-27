@@ -279,14 +279,14 @@ top10 <- coffee_sales_clean |>
 
 ```{r}
 #| label: fig-hk-rev
-#| fig-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+#| fig-cap: "Top 10 Drinks by Revenue"
 #| fig-pos: "H"
 
 ggplot(top10, aes(x = total_revenue, y = product_detail)) +
   geom_col(fill = "#2C3E50") +
   scale_x_continuous(labels = scales::dollar_format(prefix = "$")) +
   labs(
-    title = "Hell's Kitchen: Top 10 Drinks by Total Revenue",
+    title = "Top 10 Drinks by Revenue",
     x = "Total revenue (USD)",
     y = NULL
   ) +
@@ -297,7 +297,7 @@ As shown in @fig-hk-rev, total revenue in Hell’s Kitchen is concentrated among
 
 ```{r}
 #| label: tbl-hk-rev
-#| tbl-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+#| tbl-cap: "Top 10 Drinks by Revenue"
 
 tab_rev <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
@@ -313,7 +313,7 @@ knitr::kable(tab_rev, digits = 2)
 
 ```{r}
 #| label: tbl-hk-pop
-#| tbl-cap: "top 10 drinks by total quantity sold (hell’s kitchen)"
+#| tbl-cap: "Top 10 Drinks by Popularity"
 
 tab_pop <- coffee_sales_clean |>
   arrange(desc(total_qty)) |>
