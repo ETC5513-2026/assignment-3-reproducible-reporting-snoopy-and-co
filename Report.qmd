@@ -25,28 +25,17 @@ library(lubridate)
 coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 ```
 
-
 # Executive Summary
 
 # Introduction
+
 The central problem addressed in this report is how a new café can choose a location and initial product offering that maximises early sales and customer engagement. The report focuses on two key objectives: identifying the location with the strongest potential for expansion, and determining which product should be prioritised at launch. Together, these findings will support strategic decision‑making for launching a new café with the highest likelihood of early success.
 
 ## Dataset Introduction
+
 To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Maven Analytics, which provides detailed transaction‑level information across multiple existing stores. The dataset includes `r nrow(coffee_data)` rows and `r ncol(coffee_data)` columns, representing a large volume of customer purchase activity. Key variables include numeric identifiers such as `transaction_id`, `store_id`, and `product_id`, which uniquely identify each transaction, store, and product. Temporal variables include `transaction_date` (stored as character) and `transaction_time` (stored as a time object), capturing when each purchase occurred. Measures of customer behaviour are represented through `transaction_qty`, a numeric variable indicating the number of items purchased per transaction. Categorical variables (stored as character) such as `store_location`, `product_category`, `product_type`, and `product_detail` describe where the transaction took place and the type of product purchased. Together, these variables provide a rich foundation for analysing sales patterns across locations and product categories.
 
 # Methodology
-
-## Executive Summary
-
-## Introduction
-
-The central problem addressed in this report is how a new café can choose a location and initial product offering that maximises early sales and customer engagement. The report focuses on two key objectives: identifying the location with the strongest potential for expansion, and determining which product should be prioritised at launch. Together, these findings will support strategic decision‑making for launching a new café with the highest likelihood of early success.
-
-## Dataset Introduction
-
-To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Maven Analytics, which provides detailed transaction‑level information across multiple existing stores. The dataset includes `r nrow(coffee_data)` rows and `r ncol(coffee_data)` columns, representing a large volume of customer purchase activity. Key variables include numeric identifiers such as `transaction_id`, `store_id`, and `product_id`, which uniquely identify each transaction, store, and product. Temporal variables include `transaction_date` (stored as character) and `transaction_time` (stored as a time object), capturing when each purchase occurred. Measures of customer behaviour are represented through `transaction_qty`, a numeric variable indicating the number of items purchased per transaction. Categorical variables (stored as character) such as `store_location`, `product_category`, `product_type`, and `product_detail` describe where the transaction took place and the type of product purchased. Together, these variables provide a rich foundation for analysing sales patterns across locations and product categories.
-
-## Methodology
 
 Before the data is used for analysis, a data cleaning process is performed. All variables are checked for missing values and no missing values are found across the dataset, thus no further action was taken. Next, the class of each variable is verified. The **transaction_date** variable, which contains date information, was stored as a character string and was therefore mutated to a date format to allow for further analysis.
 
@@ -106,7 +95,6 @@ coffee_data |>
 ```
 
 @fig-productsales presents the quantity sold by product category. Coffee is the best selling product category, followed by tea. The third best selling category is bakery items; however, the difference between tea and bakery sales is significant, as bakery sold less than half of total tea sold, representing a large gap between the top two best selling categories and the rest.
-
 
 # Results
 
@@ -223,7 +211,7 @@ As shown in @fig-hourly-sales, **all three locations experience the same morning
 
 Lower Manhattan drops to nearly \$0 by 8 PM, and Hell's Kitchen follows a similar pattern, indicating that these locations are correlated with commuter and office traffic. On the other hand, Astoria sustains sales throughout the evening.
 
-### Conclusion
+# Conclusion
 
 This analysis examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns.
 
@@ -276,17 +264,16 @@ top10 <- coffee_sales_clean |>
 
 ```
 
-
 ```{r}
 #| label: fig-hk-rev
-#| fig-cap: "Top 10 Drinks by Revenue"
+#| fig-cap: "top 10 drinks by total revenue (hell’s kitchen)"
 #| fig-pos: "H"
 
 ggplot(top10, aes(x = total_revenue, y = product_detail)) +
   geom_col(fill = "#2C3E50") +
   scale_x_continuous(labels = scales::dollar_format(prefix = "$")) +
   labs(
-    title = "Top 10 Drinks by Revenue",
+    title = "Hell's Kitchen: Top 10 Drinks by Total Revenue",
     x = "Total revenue (USD)",
     y = NULL
   ) +
@@ -297,7 +284,7 @@ As shown in @fig-hk-rev, total revenue in Hell’s Kitchen is concentrated among
 
 ```{r}
 #| label: tbl-hk-rev
-#| tbl-cap: "Top 10 Drinks by Revenue"
+#| tbl-cap: "top 10 drinks by total revenue (hell’s kitchen)"
 
 tab_rev <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
@@ -313,7 +300,7 @@ knitr::kable(tab_rev, digits = 2)
 
 ```{r}
 #| label: tbl-hk-pop
-#| tbl-cap: "Top 10 Drinks by Popularity"
+#| tbl-cap: "top 10 drinks by total quantity sold (hell’s kitchen)"
 
 tab_pop <- coffee_sales_clean |>
   arrange(desc(total_qty)) |>
@@ -327,18 +314,12 @@ tab_pop <- coffee_sales_clean |>
 knitr::kable(tab_pop, digits = 2)
 ```
 
-
 Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
-
 
 # References
 
-Free Sample Dataset Download - Coffee Shop Sales - Maven Analytics | Build Data Skills, Faster. https://mavenanalytics.io/data-playground/coffee-shop-sales. Accessed 21 May 2026.
+Free Sample Dataset Download - Coffee Shop Sales - Maven Analytics \| Build Data Skills, Faster. <https://mavenanalytics.io/data-playground/coffee-shop-sales.> Accessed 21 May 2026.
 
-::: {.hidden}
-@tidyverse
-@ggplot2
-@knitr
-@lubridate
-::: 
-
+::: hidden
+@tidyverse @ggplot2 @knitr @lubridate
+:::
