@@ -40,13 +40,11 @@ To tackle this problem, the analysis uses the Coffee Shop Sales dataset from Mav
 Before the data is used for analysis, a data cleaning process is performed. All variables are checked for missing values and no missing values are found across the dataset, thus no further action was taken. Next, the class of each variable is verified. The **transaction_date** variable, which contains date information, was stored as a character string and was therefore mutated to a date format to allow for further analysis.
 
 ```{r}
-#| echo: false
 #| output: false
 glimpse(coffee_data)
 ```
 
 ```{r}
-#| echo: false
 #| output: false
 coffee_data <- coffee_data |> 
   mutate(transaction_date = as_date(transaction_date, format = "%d/%m/%Y"))
@@ -57,9 +55,6 @@ Following the goal of determining the best location and best selling products, t
 ## Summary of data - Sales by location
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
 #| tbl-cap: "Total sales and quantity sold by store location"
 #| label: tbl-saleslocation
 coffee_data |> 
@@ -76,9 +71,6 @@ coffee_data |>
 ## Summary of data - Sales by product category
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
 #| fig-cap: "Sales by product category"
 #| label: fig-productsales
 coffee_data |> 
@@ -149,8 +141,6 @@ Similarly, total quantity sold was nearly identical between Hell's Kitchen (71,7
 
 ```{r}
 #| label: fig-location-sales
-#| eval: true
-#| echo: false
 ggplot(location_summary,
        aes(x = reorder(store_location, total_sales), y = total_sales)) +
   geom_col(fill = "brown") +
@@ -188,8 +178,6 @@ By June, Hell's Kitchen pulled ahead with the highest monthly sales (\~\$57,000)
 
 ```{r}
 #| label: fig-hourly-sales
-#| eval: true
-#| echo: false
 
 coffee_sales_clean <- coffee_sales_clean %>%
   mutate(hour = hour(transaction_time))
