@@ -2,10 +2,10 @@
 title: "Identifying High‑Value Locations and Best‑Selling Products"
 subtitle: "An Analysis of Coffee Shop Sales Data"
 author:
-- "Caryn Kesuma"
-- "Shruti Pillai"
-- "Nattamon Wattanapenpaiboon"
-- "Thunchanok Udomittipong"
+  - "Caryn Kesuma"
+  - "Shruti Pillai"
+  - "Nattamon Wattanapenpaiboon"
+  - "Thunchanok Udomittipong"
 format: 
   revealjs:
     theme: solarized
@@ -22,7 +22,20 @@ execute:
 library(tidyverse)
 library(ggplot2)
 library(kableExtra)
+library(lubridate)
 coffee_data <- read_csv("Data/coffee-shop-sales.csv")
+```
+
+```{r, include=FALSE}
+# prep data
+coffee_data <- coffee_data %>%
+  mutate(transaction_date = dmy(transaction_date))
+
+coffee_sales <- coffee_data %>%
+  mutate(sales = transaction_qty * unit_price)
+
+coffee_sales_clean <- coffee_sales %>%
+  mutate(month = floor_date(transaction_date, "month"))
 ```
 
 ## Introduction
@@ -99,8 +112,6 @@ coffee_data |>
       legend.position = "none")
 ```
 
----
-
 ## Top drinks by revenue
 The revenue in Hell's Kitchen is concentrated in a small set of drinks (see figure below). The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.
 
@@ -110,7 +121,61 @@ The revenue in Hell's Kitchen is concentrated in a small set of drinks (see figu
 
 knitr::include_graphics("outputs/hells_kitchen_top10_revenue_bar.png")
 ```
----
+
+## Overall Store Performance
+
+```{r}
+#| label: tbl-location-summary
+#| tbl-cap: "Summary statistics by store location in New York City."
+
+location_summary <- coffee_sales %>%
+  group_by(store_location) %>%
+  summarise(total_sales = sum(sales),
+            total_transactions = n(),
+            total_quantity_sold = sum(transaction_qty),
+            avg_transaction_value = mean(sales, na.rm = TRUE),
+            avg_daily_sales = total_sales / n_distinct(transaction_date)) %>%
+  arrange(desc(total_sales)) 
+
+location_summary %>%
+  kable(col.names = c("Store Location", "Total Sales", "Total Transactions", "Total Quantity Sold", "Average Transaction Value", "Average Daily Sales"))
+```
+
+## Total Sales by Store Location in NYC
+
+```{r}
+#| label: fig-location-sales
+
+ggplot(location_summary,
+       aes(x = reorder(store_location, total_sales), y = total_sales)) +
+  geom_col(fill = "brown") +
+  coord_flip(xlim = NULL, ylim = c(220000, 240000)) +
+  labs(title = "Total Sales by Store Location in NYC", x = "Store Location", y = "Total Sales") +
+  theme_minimal()
+```
+
+## Monthly Sales Trends
+
+```{r}
+#| label: fig-monthly-sales
+monthly_sales <- coffee_sales_clean %>%
+  group_by(month, store_location) %>%
+  summarise(monthly_sales = sum(sales), .groups = "drop")
+
+ggplot(monthly_sales, aes(x = month, y = monthly_sales, colour = store_location)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  labs(title = "Monthly Sales Trends by Store Location in NYC",
+       x = "Month",
+       y = "Monthly Sales ($)") +
+  theme_minimal()
+```
+
+## Conclusion
+
+This analysis examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns.  
+
+Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
 
 ## Revenue vs Popularity
 - Drinks that rank highly in both tables are the best “core menu” items.
@@ -131,7 +196,7 @@ tab_pop <- readr::read_csv(
 )
 ```
 
----
+
 ```{r}
 knitr::kable(
   tab_rev,
@@ -140,7 +205,6 @@ knitr::kable(
 )
 ```
 
----
 ```{r}
 knitr::kable(
   tab_pop,
@@ -148,8 +212,6 @@ knitr::kable(
   digits = 2
 )
 ```
-
----
 
 ## Results
 - Most popular drink: Ouro Brasileiro shot (1,854 units).
