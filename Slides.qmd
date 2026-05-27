@@ -6,7 +6,11 @@ author:
 - "Shruti Pillai"
 - "Nattamon Wattanapenpaiboon"
 - "Thunchanok Udomittipong"
-format: revealjs
+format: 
+  revealjs:
+    theme: solarized
+    transition: slide
+    slide-number: true
 editor: visual
 execute: 
   echo: false
@@ -54,6 +58,7 @@ data_dict <- tibble(
                          ))
 kable(data_dict)
 ```
+
 ```{r}
 knitr::include_graphics("Slides_files/figure-revealjs/data-dict.png")
 ```
