@@ -20,12 +20,14 @@ bibliography: references.bib
 ```{r}
 library(tidyverse)
 library(ggplot2)
-library(kableExtra)
+library(knitr)
 library(lubridate)
 coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 ```
 
 # Executive Summary
+
+This report evaluates sales patterns across New York City café locations to identify the strongest site for expansion and the most effective products to prioritise at launch. Although total sales across Hell’s Kitchen, Astoria, and Lower Manhattan differ by less than 3%, Hell’s Kitchen consistently leads in revenue and shows the most stable demand profile. Coffee is the dominant product category, and items that rank highly in both popularity and revenue represent the strongest candidates for a core launch menu. Based on these findings, Hell’s Kitchen is recommended as the optimal location for a new café, supported by a menu centred on high‑demand, high‑revenue beverages.
 
 # Introduction
 
@@ -130,7 +132,6 @@ location_summary %>%
 @tbl-location-summary presents the overall performance metrics across all three NYC locations for the six-month period.
 
 Across all three locations, the differences in total sales are narrow - spanning just \~\$6,500 from top to bottom - indicating a broadly competitive and fairly matched market.
-
 
 ### Total Sales by Store Location in NYC
 
@@ -289,8 +290,7 @@ knitr::kable(tab_pop, digits = 2)
 
 Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
 
-Furthermore, our analysis also examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns.
-All three locations performed similarly in aggregate, with total sales differing by less than 3% over the six-month period. Monthly trends were consistent across locations, with a dip in February followed by sustained growth through to June, indicating that seasonal demand, rather than location-specific factors, is the dominant driver of revenue fluctuations.
+Furthermore, our analysis also examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns. All three locations performed similarly in aggregate, with total sales differing by less than 3% over the six-month period. Monthly trends were consistent across locations, with a dip in February followed by sustained growth through to June, indicating that seasonal demand, rather than location-specific factors, is the dominant driver of revenue fluctuations.
 
 Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
 
