@@ -62,17 +62,6 @@ Following the goal of determining the best location and best selling products, t
 
 ## Summary of data - Sales by location
 
-```{r, include=FALSE}
-
-# prep data
-
-coffee_sales <- coffee_data %>%
-  mutate(sales = transaction_qty * unit_price)
-
-coffee_sales_clean <- coffee_sales %>%
-  mutate(month = floor_date(transaction_date, "month"))
-```
-
 ```{r}
 #| tbl-cap: "Total sales and quantity sold by store location"
 #| label: tbl-saleslocation
@@ -113,6 +102,17 @@ coffee_data |>
 # Results
 
 ## Which Location would be Most Suitable based on Sales?
+
+```{r, include=FALSE}
+
+# prep data
+
+coffee_sales <- coffee_data %>%
+  mutate(sales = transaction_qty * unit_price)
+
+coffee_sales_clean <- coffee_sales %>%
+  mutate(month = floor_date(transaction_date, "month"))
+```
 
 ```{r}
 #| output: false

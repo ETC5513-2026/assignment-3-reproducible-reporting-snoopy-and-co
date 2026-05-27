@@ -84,18 +84,6 @@ knitr::include_graphics("Slides_files/figure-revealjs/data-dict.png")
 
 ## Store Location Analysis
 
-```{r, include=FALSE}
-
-# prep data
-
-coffee_sales <- coffee_data %>%
-  mutate(sales = transaction_qty * unit_price)
-
-coffee_sales_clean <- coffee_sales %>%
-  mutate(month = floor_date(transaction_date, "month"))
-```
-
-
 ::: {style="font-size: 0.7em"}
 ```{r}
 coffee_data |> 
@@ -130,6 +118,17 @@ coffee_data |>
 ```
 
 ## Total Sales by Store Location in NYC
+
+```{r, include=FALSE}
+
+# prep data
+
+coffee_sales <- coffee_data %>%
+  mutate(sales = transaction_qty * unit_price)
+
+coffee_sales_clean <- coffee_sales %>%
+  mutate(month = floor_date(transaction_date, "month"))
+```
 
 ```{r}
 #| output: false
