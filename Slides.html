@@ -6,8 +6,8 @@
 <script src="Slides_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.30">
+<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Caryn Kesuma">
   <meta name="author" content="Shruti Pillai">
@@ -35,7 +35,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/theme/quarto-1a8385bbf955fbb4448938bc10efacf4.css">
   <link href="Slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -171,14 +171,7 @@ Thunchanok Udomittipong
 <section id="dataset-introduction" class="slide level2 small-slide">
 <h2>Dataset Introduction</h2>
 
-<img data-src="Slides_files/figure-revealjs/data-dict.png" width="615" class="r-stretch"></section>
-<section id="data-cleaning-process" class="slide level2">
-<h2>Data cleaning process</h2>
-<ul>
-<li>Check for missing values.</li>
-<li>Convert date column from character string to date format.</li>
-</ul>
-</section>
+<img data-src="Slides_files/figure-revealjs/data-dict.png" class="r-stretch"></section>
 <section id="data-cleaning-process" class="slide level2">
 <h2>Data cleaning process</h2>
 <ul>
@@ -226,16 +219,12 @@ Thunchanok Udomittipong
 <section id="product-category-analysis" class="slide level2">
 <h2>Product Category Analysis</h2>
 
-<<<<<<< HEAD
 <img data-src="Slides_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch"></section>
-=======
-<img data-src="Slides_files/figure-revealjs/unnamed-chunk-4-1.png" width="960" class="r-stretch"></section>
->>>>>>> 4f156aa6a2f451c2a06042ac2e09ecdddd7fcf11
 <section id="top-drinks-by-revenue" class="slide level2">
 <h2>Top drinks by revenue</h2>
 <p>The revenue in Hell’s Kitchen is concentrated in a small set of drinks (see figure below). The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.</p>
 
-<img data-src="outputs/hells_kitchen_top10_revenue_bar.png" width="1500" class="r-stretch"></section>
+<img data-src="outputs/hells_kitchen_top10_revenue_bar.png" class="r-stretch"></section>
 <section id="revenue-vs-popularity" class="slide level2">
 <h2>Revenue vs Popularity</h2>
 <ul>
@@ -448,7 +437,7 @@ Thunchanok Udomittipong
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -553,7 +542,7 @@ Thunchanok Udomittipong
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'slide',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
@@ -608,80 +597,42 @@ Thunchanok Udomittipong
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
