@@ -79,20 +79,38 @@ knitr::include_graphics("Slides_files/figure-revealjs/data-dict.png")
 ## Data cleaning process
 
 - Check for missing values.
+- Check for duplicated rows.
 - Convert date column from character string to date format.
 
 ## Store Location Analysis
 
-```{r}
+```{r, include=FALSE}
 
+# prep data
+
+coffee_sales <- coffee_data %>%
+  mutate(sales = transaction_qty * unit_price)
+
+coffee_sales_clean <- coffee_sales %>%
+  mutate(month = floor_date(transaction_date, "month"))
+```
+
+
+::: {style="font-size: 0.7em"}
+```{r}
 coffee_data |> 
   group_by(store_location) |> 
   summarise(sales_quantity = sum(transaction_qty),
             avg_price = round(sum(transaction_qty * unit_price) / sum(transaction_qty), 2),
-            total_sales = sum(transaction_qty * unit_price)) |> 
+            total_sales = sum(transaction_qty * unit_price),
+            total_transactions = n(),
+            avg_transaction_value = round(mean(transaction_qty * unit_price, na.rm = TRUE), 2),
+            avg_daily_sales = round(total_sales / n_distinct(transaction_date), 2)) |> 
   arrange(desc(total_sales)) |> 
-  kable(col.names = c("Store Location", "Quantity Sold", "Average Price", "Total Sales"))
+  kable(col.names = c("Store Location", "Quantity Sold", "Average Price", "Total Sales", "Total Transactions", "Average Transaction Values", "Average Daily Sales")) |>
+  kable_styling(full_width = FALSE)
 ```
+:::
 
 ## Product Category Analysis
 
@@ -111,14 +129,10 @@ coffee_data |>
       legend.position = "none")
 ```
 
-## Overall Store Performance
+## Total Sales by Store Location in NYC
 
 ```{r}
-#| label: tbl-location-summary
-#| tbl-cap: "Summary statistics by store location in New York City."
-#| out-width: "100%"
-
-
+#| output: false
 location_summary <- coffee_sales %>%
   group_by(store_location) %>%
   summarise(total_sales = sum(sales),
@@ -127,13 +141,7 @@ location_summary <- coffee_sales %>%
             avg_transaction_value = mean(sales, na.rm = TRUE),
             avg_daily_sales = total_sales / n_distinct(transaction_date)) %>%
   arrange(desc(total_sales)) 
-
-location_summary %>%
-  kable(col.names = c("Store Location", "Total Sales", "Total Transactions", "Total Quantity Sold", "Average Transaction Value", "Average Daily Sales")) %>%
-  kable_styling(font_size = 30)
 ```
-
-## Total Sales by Store Location in NYC
 
 ```{r}
 #| label: fig-location-sales
