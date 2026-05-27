@@ -1,54 +1,86 @@
 ---
-title: "Slides"
-format: revealjs
+title: "Identifying High‑Value Locations and Best‑Selling Products"
+subtitle: "An Analysis of Coffee Shop Sales Data"
+author:
+  - "Caryn Kesuma"
+  - "Shruti Pillai"
+  - "Nattamon Wattanapenpaiboon"
+  - "Thunchanok Udomittipong"
+format: 
+  revealjs:
+    theme: solarized
+    transition: slide
+    slide-number: true
 editor: visual
+execute: 
+  echo: false
+  warning: false
+  message: false
 ---
 
 ```{r}
+library(tidyverse)
+library(ggplot2)
+library(kableExtra)
+library(lubridate)
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
+```
+
+## Top drinks by revenue
+
+- The revenue in Hell's Kitchen is concentrated in a small set of drinks.
+- The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.
+
+-----
+
+```{r}
+#| out-width: "100%"
+
 knitr::include_graphics("outputs/hells_kitchen_top10_revenue_bar.png")
 ```
 
+## Revenue vs Popularity
+
+- Drinks that rank highly in both tables are the best “core menu” items.
+- High-revenue but lower-quantity drinks are good “premium/upsell” options.
+
 ```{r}
-tab <- readr::read_csv(
+
+#| out-width: "100%"
+
+tab_rev <- readr::read_csv(
   "outputs/hells_kitchen_top10_revenue_table.csv",
   show_col_types = FALSE
 )
-```
 
-------------------------------------------------------------------------
-
-```{r}
-knitr::kable(
-  tab,
-  caption = "Top 10 drinks by total revenue (Hell's Kitchen)",
-  digits = 2
-)
-```
-
-------------------------------------------------------------------------
-
-```{r}
-knitr::include_graphics("outputs/hells_kitchen_top10_popularity_bar.png")
-```
-
-------------------------------------------------------------------------
-
-```{r}
 tab_pop <- readr::read_csv(
   "outputs/hells_kitchen_top10_popularity_table.csv",
   show_col_types = FALSE
 )
-
-knitr::kable(
-tab_pop,
-caption = "Top 10 drinks by total quantity sold (Hell's Kitchen)",
-digits = 2
-)
 ```
-
-------------------------------------------------------------------------
-
+-----
 ```{r}
-cat(readLines("outputs/hells_kitchen_results.txt"), sep = "\n")
-
+knitr::kable(
+  tab_rev, 
+  caption = "Top 10 drinks by total revenue (Hell’s Kitchen)", 
+  digits = 2
+  ) |>
+  kableExtra::kable_styling(font_size = 30)
 ```
+-----
+```{r}
+knitr::kable(
+  tab_pop,
+  caption = "Top 10 drinks by total quantity sold (Hell’s Kitchen)",
+  digits = 2
+  ) |>
+  kableExtra::kable_styling(font_size = 30)
+```
+
+## Results
+
+- Most popular drink: Ouro Brasileiro shot (1,854 units).
+- Most lucrative drink: Civet Cat (\$7,380 total revenue).
+- Overlap items (popular + lucrative) are safest staples (e.g., Brazilian lg, Ethiopia lg).
+- Premium items can drive revenue without top volume (use for upsells).
+- Overall menu strategy: prioritise overlap winners + keep a small premium set.

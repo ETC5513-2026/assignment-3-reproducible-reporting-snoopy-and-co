@@ -9,7 +9,11 @@
 <link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.9.37">
 
-  <title>Slides</title>
+  <meta name="author" content="Caryn Kesuma">
+  <meta name="author" content="Shruti Pillai">
+  <meta name="author" content="Nattamon Wattanapenpaiboon">
+  <meta name="author" content="Thunchanok Udomittipong">
+  <title>Identifying High‑Value Locations and Best‑Selling Products</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -31,7 +35,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/theme/quarto-2740581606dc327e82f18f789b69d8a0.css">
+  <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/theme/quarto-1a8385bbf955fbb4448938bc10efacf4.css">
   <link href="Slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -123,33 +127,70 @@
       margin-right: 0; 
     }
   </style>
+  <script src="Slides_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="Slides_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body class="quarto-light">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Slides</h1>
+  <h1 class="title">Identifying High‑Value Locations and Best‑Selling Products</h1>
+  <p class="subtitle">An Analysis of Coffee Shop Sales Data</p>
 
 <div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Caryn Kesuma 
+</div>
+</div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Shruti Pillai 
+</div>
+</div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Nattamon Wattanapenpaiboon 
+</div>
+</div>
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Thunchanok Udomittipong 
+</div>
+</div>
 </div>
 
+</section>
+<section id="top-drinks-by-revenue" class="slide level2">
+<h2>Top drinks by revenue</h2>
+<ul>
+<li>The revenue in Hell’s Kitchen is concentrated in a small set of drinks.</li>
+<li>The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.</li>
+</ul>
 </section>
 <section class="slide level2">
 
 
-<img data-src="outputs/hells_kitchen_top10_revenue_bar.png" class="r-stretch"></section>
+<img data-src="outputs/hells_kitchen_top10_revenue_bar.png" style="width:100.0%" class="r-stretch"></section>
+<section id="revenue-vs-popularity" class="slide level2">
+<h2>Revenue vs Popularity</h2>
+<ul>
+<li>Drinks that rank highly in both tables are the best “core menu” items.</li>
+<li>High-revenue but lower-quantity drinks are good “premium/upsell” options.</li>
+</ul>
+</section>
 <section class="slide level2">
 
 <div class="cell">
 <div class="cell-output-display">
-<table class="caption-top">
+<table class="table caption-top" style="font-size: 30px; margin-left: auto; margin-right: auto;">
 <caption>Top 10 drinks by total revenue (Hell’s Kitchen)</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">drink</th>
-<th style="text-align: right;">total_quantity</th>
-<th style="text-align: right;">total_revenue</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">drink</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total_quantity</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total_revenue</th>
 </tr>
 </thead>
 <tbody>
@@ -210,19 +251,15 @@
 </section>
 <section class="slide level2">
 
-
-<img data-src="outputs/hells_kitchen_top10_popularity_bar.png" class="r-stretch"></section>
-<section class="slide level2">
-
 <div class="cell">
 <div class="cell-output-display">
-<table class="caption-top">
+<table class="table caption-top" style="font-size: 30px; margin-left: auto; margin-right: auto;">
 <caption>Top 10 drinks by total quantity sold (Hell’s Kitchen)</caption>
 <thead>
 <tr class="header">
-<th style="text-align: left;">drink</th>
-<th style="text-align: right;">total_quantity</th>
-<th style="text-align: right;">total_revenue</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">drink</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total_quantity</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total_revenue</th>
 </tr>
 </thead>
 <tbody>
@@ -281,13 +318,15 @@
 </div>
 </div>
 </section>
-<section class="slide level2">
-
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Hell’s Kitchen results: the most popular drink was Ouro Brasileiro shot (n = 1854 units). The most lucrative drink was Civet Cat (total revenue = $7380). Overall, some drinks performed strongly on both metrics (e.g., Brazilian Lg and Ethiopia Lg), suggesting they are both widely purchased and commercially important.</code></pre>
-</div>
-</div>
+<section id="results" class="slide level2">
+<h2>Results</h2>
+<ul>
+<li>Most popular drink: Ouro Brasileiro shot (1,854 units).</li>
+<li>Most lucrative drink: Civet Cat ($7,380 total revenue).</li>
+<li>Overlap items (popular + lucrative) are safest staples (e.g., Brazilian lg, Ethiopia lg).</li>
+<li>Premium items can drive revenue without top volume (use for upsells).</li>
+<li>Overall menu strategy: prioritise overlap winners + keep a small premium set.</li>
+</ul>
 
 </section>
     </div>
@@ -346,7 +385,7 @@
         progress: true,
 
         // Display the page number of the current slide
-        slideNumber: false,
+        slideNumber: 'c/t',
 
         // 'all', 'print', or 'speaker'
         showSlideNumber: 'all',
@@ -451,7 +490,7 @@
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'slide',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
