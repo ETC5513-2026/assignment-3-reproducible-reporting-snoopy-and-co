@@ -4,23 +4,41 @@ author: "Shruti Pillai"
 format: html
 editor: visual
 ---
-
-## Analysis
-
 ```{r}
 library(tidyverse)
+library(ggplot2)
+library(knitr)
 library(lubridate)
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
+```
 
-potential_drinks <- readr::read_csv("Data/coffee-shop-sales.csv",
-                                    show_col_types = FALSE) |>
-  mutate(coin = transaction_qty * unit_price)
+```{r, include=FALSE}
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 
-potential_drinks |>
+# prep data
+coffee_data <- coffee_data %>%
+  mutate(transaction_date = dmy(transaction_date))
+
+coffee_sales <- coffee_data %>%
+  mutate(sales = transaction_qty * unit_price)
+
+coffee_sales_clean <- coffee_sales %>%
+  mutate(month = floor_date(transaction_date, "month"))
+```
+
+# Analysis
+
+## Optimal Menu Recommendations
+
+```{r}
+#| output: false
+
+coffee_sales_clean |>
   distinct(store_location) |>
   arrange(store_location)
 
 hot_spot <- "Hell's Kitchen"
-hells_kitchen_sips <- potential_drinks |>
+hells_kitchen_sips <- coffee_sales_clean |>
   filter(store_location == hot_spot)
 
 crowd_faves <- hells_kitchen_sips |>
@@ -30,27 +48,35 @@ crowd_faves <- hells_kitchen_sips |>
 
 cash_cows <- hells_kitchen_sips |>
   group_by(product_detail) |>
-  summarise(total_revenue = sum(coin, na.rm = TRUE), .groups = "drop") |>
+  summarise(total_revenue = sum(sales, na.rm = TRUE), .groups = "drop") |>
   arrange(desc(total_revenue))
 
 crowd_faves
 cash_cows
 
-names(potential_drinks)
-glimpse(potential_drinks)
-str(potential_drinks)
+names(coffee_sales_clean)
+glimpse(coffee_sales_clean)
+str(coffee_sales_clean)
 ```
 
 ```{r}
-drink_summary <- crowd_faves |>
+
+coffee_sales_clean <- crowd_faves |>
   left_join(cash_cows, by = "product_detail")
 
-top10 <- drink_summary |>
+top10 <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
   slice_head(n = 10) |>
   mutate(product_detail = fct_reorder(product_detail, total_revenue))
 
-p <- ggplot(top10, aes(x = total_revenue, y = product_detail)) +
+```
+
+```{r}
+#| label: fig-hk-rev
+#| fig-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+#| fig-pos: "H"
+
+ggplot(top10, aes(x = total_revenue, y = product_detail)) +
   geom_col(fill = "#2C3E50") +
   scale_x_continuous(labels = scales::dollar_format(prefix = "$")) +
   labs(
@@ -59,10 +85,15 @@ p <- ggplot(top10, aes(x = total_revenue, y = product_detail)) +
     y = NULL
   ) +
   theme_minimal(base_size = 12)
+```
 
-p
+As shown in @fig-hk-rev, total revenue in Hell’s Kitchen is concentrated among a small set of drinks, with a clear drop-off after the top-ranked items. The highest-earning products include premium coffees and larger-size beverages, suggesting that both higher unit prices and steady demand contribute to revenue. This figure highlights the key drivers of takings and provides an evidence-based starting point for deciding which drinks should be prioritised for menu placement and promotion.
 
-tab <- drink_summary |>
+```{r}
+#| label: tbl-hk-rev
+#| tbl-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+
+tab_rev <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
   slice_head(n = 10) |>
   transmute(
@@ -70,24 +101,17 @@ tab <- drink_summary |>
     total_quantity = total_qty,
     total_revenue = total_revenue
   )
-top10_pop <- drink_summary |>
-  arrange(desc(total_qty)) |>
-  slice_head(n = 10) |>
-  mutate(product_detail = fct_reorder(product_detail, total_qty))
 
-p_pop <- ggplot(top10_pop, aes(x = total_qty, y = product_detail)) +
-  geom_col(fill = "#2C3E50") +
-  scale_x_continuous(labels = scales::comma) +
-  labs(
-    title = "Hell's Kitchen: Top 10 drinks by Popularity",
-    x = "Total quantity sold",
-    y = NULL
-  ) +
-  theme_minimal(base_size = 12)
+knitr::kable(tab_rev, digits = 2)
+```
 
-p_pop
+@tbl-hk-rev highlights that the Civet Cat generated the highest total revenue in Hell’s Kitchen (\$7,380), followed by Sustainably Grown Organic Lg (\$7,329.25) and Dark chocolate Lg (\$6,534). Brazilian Lg and Ethiopia Lg also performed strongly (\$5,432 each), suggesting consistent high earners.
 
-tab_pop <- drink_summary |>
+```{r}
+#| label: tbl-hk-pop
+#| tbl-cap: "top 10 drinks by total quantity sold (hell’s kitchen)"
+
+tab_pop <- coffee_sales_clean |>
   arrange(desc(total_qty)) |>
   slice_head(n = 10) |>
   transmute(
@@ -96,54 +120,19 @@ tab_pop <- drink_summary |>
     total_revenue = total_revenue
   )
 
-knitr::kable(
-  tab_pop,
-  caption = "Top 10 drinks by total quantity sold (Hell's Kitchen)",
-  digits = 2
-)
-
-readr::write_csv(
-  tab_pop,
-  file.path(out_dir, "hells_kitchen_top10_popularity_table.csv")
-)
-
-ggsave(
-  filename = file.path(out_dir, "hells_kitchen_top10_popularity_bar.png"),
-  plot = p_pop,
-  width = 10, height = 6, dpi = 300
-)
-
-knitr::kable(
-  tab,
-  caption = "Top 10 Drinks by Total Revenue (Hell's Kitchen)",
-  digits = 2
-)
-
-out <- "outputs"
-dir.create(out, showWarnings = FALSE)
-
-ggsave(
-  filename = file.path(out, "hells_kitchen_top10_revenue_bar.png"),
-  plot = p,
-  width = 10, height = 6, dpi = 300
-)
-
-readr::write_csv(
-  tab,
-  file.path(out, "hells_kitchen_top10_revenue_table.csv")
-)
-
-fan_fave_1 <- crowd_faves |> slice_head(n = 1)
-top_rev_1  <- cash_cows   |> slice_head(n = 1)
-
-results_text <- paste0(
-  "Hell’s Kitchen results: the most popular drink was ",
-  fan_fave_1$product_detail, " (n = ", fan_fave_1$total_qty, " units). ",
-  "The most lucrative drink was ", top_rev_1$product_detail,
-  " (total revenue = $", round(top_rev_1$total_revenue, 2), "). ",
-  "Overall, some drinks performed strongly on both metrics (e.g., Brazilian Lg and Ethiopia Lg), ",
-  "suggesting they are both widely purchased and commercially important."
-)
-
-writeLines(results_text, file.path(out, "hells_kitchen_results.txt"))
+knitr::kable(tab_pop, digits = 2)
 ```
+
+@tbl-hk-pop shows that the Ouro Brasileiro shot was the most popular item (1,854 units), followed by Serenity Green Tea Rg (1,601) and Morning Sunrise Chai Rg (1,589). Brazilian Lg, Ethiopia Lg, and Sustainably Grown Organic Lg appear as both high-volume sellers and high-revenue items, making them strong Core Menu choices.
+
+# Discussion
+
+# Conclusion
+
+Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
+
+# Recommendations
+
+- The new cafe should be opened in Hell's Kitchen.
+- Profits can be optimised by combining profitability and demand of drinks when choosing menu options.
+- Drinks for the menu should be chosen from those which can be identified in @tbl-hk-rev and @tbl-hk-pop
