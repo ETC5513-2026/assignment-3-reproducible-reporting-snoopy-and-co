@@ -116,6 +116,8 @@ coffee_data |>
 ```{r}
 #| label: tbl-location-summary
 #| tbl-cap: "Summary statistics by store location in New York City."
+#| out-width: "100%"
+
 
 location_summary <- coffee_sales %>%
   group_by(store_location) %>%
