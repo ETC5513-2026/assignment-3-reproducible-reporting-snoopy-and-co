@@ -127,7 +127,8 @@ location_summary <- coffee_sales %>%
   arrange(desc(total_sales)) 
 
 location_summary %>%
-  kable(col.names = c("Store Location", "Total Sales", "Total Transactions", "Total Quantity Sold", "Average Transaction Value", "Average Daily Sales"))
+  kable(col.names = c("Store Location", "Total Sales", "Total Transactions", "Total Quantity Sold", "Average Transaction Value", "Average Daily Sales")) %>%
+  kable_styling(font_size = 30)
 ```
 
 ## Total Sales by Store Location in NYC
