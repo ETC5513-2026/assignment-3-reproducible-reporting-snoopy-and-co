@@ -16,6 +16,7 @@ execute:
   message: false
 bibliography: references.bib
 ---
+
 ```{r}
 library(tidyverse)
 library(ggplot2)
@@ -279,9 +280,11 @@ knitr::kable(tab_pop, digits = 2)
 
 # Discussion
 
+While Lower Manhattan achieved the highest average transaction value, its overall transaction volume was lower than Hell’s Kitchen, suggesting that revenue may rely more heavily on higher-spending purchases rather than broader customer traffic. Astoria, on the other hand, demonstrated comparable overall sales performance but did not consistently outperform Hell’s Kitchen across the evaluated metrics. As a result, **Hell’s Kitchen represents the strongest balance between customer volume, revenue generation, and consistent demand**.
+
 As shown in @fig-hk-rev and @tbl-hk-rev, the revenue in Hell’s Kitchen is concentrated among a small set of drinks, led by Civet Cat (bringing in a total of \$7,380), Sustainably Grown Organic lg (totalling at \$7,329.25), and Dark Chocolate lg (with \$6,534 in revenue). However, @tbl-hk-pop shows that high revenue does not always correspond to high demand: the Ouro Brasileiro shot is the most popular item (1,854 units), while Civet Cat achieves the top revenue rank despite comparatively low volume (164 units), suggesting a premium price point and “specialty” positioning instead.
 
-Taken together, @tbl-hk-rev and @tbl-hk-pop support a two-tier menu strategy for launch. “Core menu” items should prioritise drinks that perform strongly on both quantity and revenue, because they provide stable demand and reliable contribution to cafe's the overall revenue; for example, Brazilian lg and Ethiopia lg are high-volume sellers (1,552 units each) and also high revenue earners (both coming in at \$5,432 each), while Sustainably Grown Organic lg performs strongly on both metrics (1,543 units sold with a revenue of $7,329.25). In contrast, drinks that rank highly in @tbl-hk-rev but not in @tbl-hk-pop (most notably Civet Cat) are best treated as “premium” options to increase the average transaction value through targeted promotion (e.g., staff recommendations or featured placement), while core items are left to anchor consistent day-to-day sales.
+Taken together, @tbl-hk-rev and @tbl-hk-pop support a two-tier menu strategy for launch. “Core menu” items should prioritise drinks that perform strongly on both quantity and revenue, because they provide stable demand and reliable contribution to cafe's the overall revenue; for example, Brazilian lg and Ethiopia lg are high-volume sellers (1,552 units each) and also high revenue earners (both coming in at \$5,432 each), while Sustainably Grown Organic lg performs strongly on both metrics (1,543 units sold with a revenue of \$7,329.25). In contrast, drinks that rank highly in @tbl-hk-rev but not in @tbl-hk-pop (most notably Civet Cat) are best treated as “premium” options to increase the average transaction value through targeted promotion (e.g., staff recommendations or featured placement), while core items are left to anchor consistent day-to-day sales.
 
 # Conclusion
 
@@ -293,7 +296,8 @@ Taking all findings together, **Hell's Kitchen is recommended as the strongest c
 
 # Recommendations
 
--   The new cafe should be opened in Hell's Kitchen.
+-   The new cafe should be established in Hell's Kitchen.
+-   Business operations should prioritise maintaining stable day-to-day customer demand rather than focusing only on high-calue transactions.
 -   Profits can be optimised by combining profitability and demand of drinks when choosing menu options.
 -   Drinks for the menu should be chosen from those which can be identified in @tbl-hk-rev and @tbl-hk-pop
 
