@@ -57,7 +57,6 @@ coffee_data <- coffee_data |>
 sum(duplicated(coffee_data))
 ```
 
-
 Following the goal of determining the best location and best selling products, the relationship between product category, product details, sales quantity, unit price, and store location is explored.
 
 ## Summary of data - Sales by location
@@ -295,9 +294,9 @@ Taking all findings together, **Hell's Kitchen is recommended as the strongest c
 
 # Recommendations
 
-- The new cafe should be opened in Hell's Kitchen.
-- Profits can be optimised by combining profitability and demand of drinks when choosing menu options.
-- Drinks for the menu should be chosen from those which can be identified in @tbl-hk-rev and @tbl-hk-pop
+-   The new cafe should be opened in Hell's Kitchen.
+-   Profits can be optimised by combining profitability and demand of drinks when choosing menu options.
+-   Drinks for the menu should be chosen from those which can be identified in @tbl-hk-rev and @tbl-hk-pop
 
 # References
 

@@ -21,7 +21,7 @@ execute:
 ```{r}
 library(tidyverse)
 library(ggplot2)
-library(kableExtra)
+library(knitr)
 library(lubridate)
 coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 ```
@@ -75,12 +75,6 @@ kable(data_dict)
 ```{r}
 knitr::include_graphics("Slides_files/figure-revealjs/data-dict.png")
 ```
-
-## Data cleaning process
-
-- Check for missing values.
-- Check for duplicated rows.
-- Convert date column from character string to date format.
 
 ## Store Location Analysis
 
