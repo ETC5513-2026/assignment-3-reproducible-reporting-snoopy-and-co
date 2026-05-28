@@ -21,6 +21,7 @@ execute:
 ```{r}
 library(tidyverse)
 library(ggplot2)
+<<<<<<< HEAD
 library(knitr)
 library(lubridate)
 library(kableExtra)
@@ -171,6 +172,13 @@ This analysis examined the sales performance of Hell's Kitchen, Astoria, and Low
 
 Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
 
+=======
+library(kableExtra)
+library(lubridate)
+coffee_data <- read_csv("Data/coffee-shop-sales.csv")
+```
+
+>>>>>>> shruti_analysis
 ## Top drinks by revenue
 
 - The revenue in Hell's Kitchen is concentrated in a small set of drinks.
@@ -228,4 +236,8 @@ knitr::kable(
 - Most lucrative drink: Civet Cat (\$7,380 total revenue).
 - Overlap items (popular + lucrative) are safest staples (e.g., Brazilian lg, Ethiopia lg).
 - Premium items can drive revenue without top volume (use for upsells).
+<<<<<<< HEAD
 - Overall menu strategy: prioritise overlap winners + keep a small premium set.
+=======
+- Overall menu strategy: prioritise overlap winners + keep a small premium set.
+>>>>>>> shruti_analysis
