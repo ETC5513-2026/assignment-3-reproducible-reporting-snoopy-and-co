@@ -23,6 +23,7 @@ library(tidyverse)
 library(ggplot2)
 library(knitr)
 library(lubridate)
+library(kableExtra)
 coffee_data <- read_csv("Data/coffee-shop-sales.csv")
 ```
 
