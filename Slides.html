@@ -6,8 +6,8 @@
 <script src="Slides_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-b6a8276bf55561bdbc268162d41bd1f7.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.30">
+<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Caryn Kesuma">
   <meta name="author" content="Shruti Pillai">
@@ -128,9 +128,7 @@
     }
   </style>
   <script src="Slides_files/libs/kePrint-0.0.1/kePrint.js"></script>
-
   <link href="Slides_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -175,7 +173,7 @@ Thunchanok Udomittipong
 <section id="dataset-introduction" class="slide level2 small-slide">
 <h2>Dataset Introduction</h2>
 
-<img data-src="Slides_files/figure-revealjs/data-dict.png" width="615" class="r-stretch"></section>
+<img data-src="Slides_files/figure-revealjs/data-dict.png" class="r-stretch"></section>
 <section id="store-location-analysis" class="slide level2">
 <h2>Store Location Analysis</h2>
 <div style="font-size: 0.7em">
@@ -248,30 +246,18 @@ Figure&nbsp;2
 <p>This analysis examined the sales performance of Hell’s Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns.</p>
 <p>Taking all findings together, <strong>Hell’s Kitchen is recommended as the strongest candidate for a new café</strong>. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.</p>
 </section>
-<section id="top-drinks-by-revenue" class="slide level2">
-<h2>Top drinks by revenue</h2>
-<ul>
-<li>The revenue in Hell’s Kitchen is concentrated in a small set of drinks.</li>
-<li>The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.</li>
-</ul>
-</section>
 <section class="slide level2">
 
 
 <img data-src="outputs/hells_kitchen_top10_revenue_bar.png" style="width:100.0%" class="r-stretch"></section>
-<section id="revenue-vs-popularity" class="slide level2">
-<h2>Revenue vs Popularity</h2>
-<ul>
-<li>Drinks that rank highly in both tables are the best “core menu” items.</li>
-<li>High-revenue but lower-quantity drinks are good “premium/upsell” options.</li>
-</ul>
-</section>
-<section class="slide level2">
-
+<section id="top-10-drinks" class="slide level2">
+<h2>Top 10 Drinks</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<table class="table caption-top" style="font-size: 30px; margin-left: auto; margin-right: auto;">
-<caption>Top 10 drinks by total revenue (Hell’s Kitchen)</caption>
+<table class="table caption-top" style="font-size: 18px; margin-left: auto; margin-right: auto;">
+<caption>By Total Revenue</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">drink</th>
@@ -334,13 +320,11 @@ Figure&nbsp;2
 </table>
 </div>
 </div>
-</section>
-<section class="slide level2">
-
+</div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<table class="table caption-top" style="font-size: 30px; margin-left: auto; margin-right: auto;">
-<caption>Top 10 drinks by total quantity sold (Hell’s Kitchen)</caption>
+<table class="table caption-top" style="font-size: 18px; margin-left: auto; margin-right: auto;">
+<caption>By Popularity</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">drink</th>
@@ -403,6 +387,7 @@ Figure&nbsp;2
 </table>
 </div>
 </div>
+</div></div>
 </section>
 <section id="results" class="slide level2">
 <h2>Results</h2>
@@ -631,80 +616,42 @@ Figure&nbsp;2
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {

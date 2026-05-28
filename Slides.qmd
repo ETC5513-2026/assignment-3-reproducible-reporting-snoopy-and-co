@@ -171,23 +171,12 @@ This analysis examined the sales performance of Hell's Kitchen, Astoria, and Low
 
 Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
 
-## Top drinks by revenue
-
-- The revenue in Hell's Kitchen is concentrated in a small set of drinks.
-- The highest earners include premium coffees and larger sizes. These are the strongest candidates to feature prominently on the menu.
-
------
-
+----
 ```{r}
 #| out-width: "100%"
 
 knitr::include_graphics("outputs/hells_kitchen_top10_revenue_bar.png")
 ```
-
-## Revenue vs Popularity
-
-- Drinks that rank highly in both tables are the best “core menu” items.
-- High-revenue but lower-quantity drinks are good “premium/upsell” options.
 
 ```{r}
 
@@ -204,23 +193,39 @@ tab_pop <- readr::read_csv(
 )
 ```
 -----
+
+## Top 10 Drinks
+::: {.columns}
+
+::: {.column width="50%"}
 ```{r}
 knitr::kable(
   tab_rev, 
-  caption = "Top 10 drinks by total revenue (Hell’s Kitchen)", 
+  caption = "By Total Revenue", 
   digits = 2
   ) |>
-  kableExtra::kable_styling(font_size = 30)
+  kableExtra::kable_styling(
+    font_size = 18,
+    position = "center"
+    )
 ```
------
+:::
+
+::: {.column width="50%"}
 ```{r}
 knitr::kable(
   tab_pop,
-  caption = "Top 10 drinks by total quantity sold (Hell’s Kitchen)",
+  caption = "By Popularity",
   digits = 2
   ) |>
-  kableExtra::kable_styling(font_size = 30)
+  kableExtra::kable_styling(
+    font_size = 18,
+    position = "center"
+    )
 ```
+:::
+
+:::
 
 ## Results
 

@@ -16,7 +16,6 @@ execute:
   message: false
 bibliography: references.bib
 ---
-
 ```{r}
 library(tidyverse)
 library(ggplot2)
@@ -103,9 +102,6 @@ coffee_data |>
 ## Which Location would be Most Suitable based on Sales?
 
 ```{r, include=FALSE}
-
-# prep data
-
 coffee_sales <- coffee_data %>%
   mutate(sales = transaction_qty * unit_price)
 
@@ -217,7 +213,6 @@ str(coffee_sales_clean)
 ```
 
 ```{r}
-
 coffee_sales_clean <- crowd_faves |>
   left_join(cash_cows, by = "product_detail")
 
@@ -283,6 +278,10 @@ knitr::kable(tab_pop, digits = 2)
 @tbl-hk-pop shows that the Ouro Brasileiro shot was the most popular item (1,854 units), followed by Serenity Green Tea Rg (1,601) and Morning Sunrise Chai Rg (1,589). Brazilian Lg, Ethiopia Lg, and Sustainably Grown Organic Lg appear as both high-volume sellers and high-revenue items, making them strong Core Menu choices.
 
 # Discussion
+
+As shown in @fig-hk-rev and @tbl-hk-rev, the revenue in Hell’s Kitchen is concentrated among a small set of drinks, led by Civet Cat (bringing in a total of \$7,380), Sustainably Grown Organic lg (totalling at \$7,329.25), and Dark Chocolate lg (with \$6,534 in revenue). However, @tbl-hk-pop shows that high revenue does not always correspond to high demand: the Ouro Brasileiro shot is the most popular item (1,854 units), while Civet Cat achieves the top revenue rank despite comparatively low volume (164 units), suggesting a premium price point and “specialty” positioning instead.
+
+Taken together, @tbl-hk-rev and @tbl-hk-pop support a two-tier menu strategy for launch. “Core menu” items should prioritise drinks that perform strongly on both quantity and revenue, because they provide stable demand and reliable contribution to cafe's the overall revenue; for example, Brazilian lg and Ethiopia lg are high-volume sellers (1,552 units each) and also high revenue earners (both coming in at \$5,432 each), while Sustainably Grown Organic lg performs strongly on both metrics (1,543 units sold with a revenue of $7,329.25). In contrast, drinks that rank highly in @tbl-hk-rev but not in @tbl-hk-pop (most notably Civet Cat) are best treated as “premium” options to increase the average transaction value through targeted promotion (e.g., staff recommendations or featured placement), while core items are left to anchor consistent day-to-day sales.
 
 # Conclusion
 
