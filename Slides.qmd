@@ -164,13 +164,6 @@ ggplot(monthly_sales, aes(x = month, y = monthly_sales, colour = store_location)
        y = "Monthly Sales ($)") +
   theme_minimal()
 ```
-
-## Conclusion
-
-This analysis examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns.
-
-Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
-
 ----
 ```{r}
 #| out-width: "100%"
