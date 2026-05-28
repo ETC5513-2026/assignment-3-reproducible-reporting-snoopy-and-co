@@ -112,8 +112,6 @@ coffee_data |>
       legend.position = "none")
 ```
 
-## Total Sales by Store Location in NYC
-
 ```{r, include=FALSE}
 
 # prep data
@@ -137,21 +135,9 @@ location_summary <- coffee_sales %>%
   arrange(desc(total_sales)) 
 ```
 
-```{r}
-#| label: fig-location-sales
-
-ggplot(location_summary,
-       aes(x = reorder(store_location, total_sales), y = total_sales)) +
-  geom_col(fill = "brown") +
-  coord_flip(xlim = NULL, ylim = c(220000, 240000)) +
-  labs(title = "Total Sales by Store Location in NYC", x = "Store Location", y = "Total Sales") +
-  theme_minimal()
-```
-
 ## Monthly Sales Trends
 
 ```{r}
-#| label: fig-monthly-sales
 monthly_sales <- coffee_sales_clean %>%
   group_by(month, store_location) %>%
   summarise(monthly_sales = sum(sales), .groups = "drop")
@@ -162,6 +148,23 @@ ggplot(monthly_sales, aes(x = month, y = monthly_sales, colour = store_location)
   labs(title = "Monthly Sales Trends by Store Location in NYC",
        x = "Month",
        y = "Monthly Sales ($)") +
+  theme_minimal()
+```
+## Peak-Hour Demand Analysis
+```{r}
+coffee_sales_clean <- coffee_sales_clean %>%
+  mutate(hour = hour(transaction_time))
+
+hourly_sales <- coffee_sales_clean %>%
+  group_by(store_location, hour) %>%
+  summarise(sales = sum(sales),
+            .groups = "drop")
+
+ggplot(hourly_sales, aes(x = hour, y = sales, colour = store_location)) +
+  geom_line(linewidth = 1) +
+  labs(title = "Hourly Sales Patterns by Store Location in NYC", 
+       x = "Hour of Day",
+       y = "Sales ($)") +
   theme_minimal()
 ```
 ----
@@ -222,6 +225,7 @@ knitr::kable(
 
 ## Results
 
+- Most recommended location: Hell's Kitchen
 - Most popular drink: Ouro Brasileiro shot (1,854 units).
 - Most lucrative drink: Civet Cat (\$7,380 total revenue).
 - Overlap items (popular + lucrative) are safest staples (e.g., Brazilian lg, Ethiopia lg).
