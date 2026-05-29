@@ -6,8 +6,8 @@
 <script src="Slides_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.32">
+<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.31">
 
   <meta name="author" content="Caryn Kesuma">
   <meta name="author" content="Shruti Pillai">
@@ -20,6 +20,9 @@
   <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -32,7 +35,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/theme/quarto-8a5cdbf101a0845817b98f2425171703.css">
+  <link rel="stylesheet" href="Slides_files/libs/revealjs/dist/theme/quarto-1a8385bbf955fbb4448938bc10efacf4.css">
   <link href="Slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -178,7 +181,7 @@ Thunchanok Udomittipong
 <div style="font-size: 0.7em">
 <div class="cell">
 <div class="cell-output-display">
-<table class="table caption-top" data-quarto-postprocess="true" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table class="table caption-top" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Store Location</th>
@@ -246,7 +249,7 @@ Thunchanok Udomittipong
 <div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<table class="table caption-top" data-quarto-postprocess="true" style="font-size: 18px; margin-left: auto; margin-right: auto;">
+<table class="table caption-top" style="font-size: 18px; margin-left: auto; margin-right: auto;">
 <caption>By Total Revenue</caption>
 <thead>
 <tr class="header">
@@ -313,7 +316,7 @@ Thunchanok Udomittipong
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<table class="table caption-top" data-quarto-postprocess="true" style="font-size: 18px; margin-left: auto; margin-right: auto;">
+<table class="table caption-top" style="font-size: 18px; margin-left: auto; margin-right: auto;">
 <caption>By Popularity</caption>
 <thead>
 <tr class="header">
@@ -580,7 +583,7 @@ Thunchanok Udomittipong
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -730,13 +733,14 @@ Thunchanok Udomittipong
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy
