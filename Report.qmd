@@ -155,7 +155,7 @@ ggplot(monthly_sales, aes(x = month, y = monthly_sales, colour = store_location)
   theme_minimal()
 ```
 
-@fig-monthly-sales reveals a **consistent and strong upward trajectory in sales** across all three locations from January to June. All stores dipped slightly in February before recovering and rising gradually to June. This seasonal period likely reflects increased foot traffic in the warmer months, where customers are more likely to leave their homes and visit coffee shops.
+@fig-monthly-sales reveals a **consistent and strong upward trajectory in sales** across all three locations from January to June. All stores dipped slightly in February before recovering and rising gradually to June. This seasonal period likely reflects increased foot traffic in the warmer months, where customers are more likely to leave their homes and visit cafes.
 
 ### Peak-Hour Demand Analysis
 
@@ -178,9 +178,9 @@ ggplot(hourly_sales, aes(x = hour, y = sales, colour = store_location)) +
   theme_minimal()
 ```
 
-As shown in @fig-hourly-sales, **all three locations experience the same morning peak**, with sales increasing between 7 to 10 AM. Hell's Kitchen and Lower Manhattan both reached peaks exceeding \$30,000 in sales during this time period, aligning with the high foot traffic from morning commuters.
+As shown in @fig-hourly-sales, **all three locations experience the same morning peak**, with sales increasing between 7-10 AM. Hell's Kitchen and Lower Manhattan both reached peaks exceeding \$30,000 in sales during this period, aligning with the high foot traffic from morning commuters.
 
-Lower Manhattan drops to nearly \$0 by 8 PM, and Hell's Kitchen follows a similar pattern, indicating that these locations are correlated with commuter and office traffic. On the other hand, Astoria sustains sales throughout the evening.
+Lower Manhattan drops to nearly \$0 by 8 PM, and Hell's Kitchen follows a similar pattern, indicating that these locations are correlated with commuter traffic. Meanwhile, Astoria sustains sales throughout the evening.
 
 ## Optimal Menu Recommendations
 
