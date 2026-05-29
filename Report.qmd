@@ -226,7 +226,7 @@ top10 <- coffee_sales_clean |>
 
 ```{r}
 #| label: fig-hk-rev
-#| fig-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+#| fig-cap: "Top 10 Drinks By Total Revenue (Hell’s Kitchen)"
 #| fig-pos: "H"
 
 ggplot(top10, aes(x = total_revenue, y = product_detail)) +
@@ -240,11 +240,11 @@ ggplot(top10, aes(x = total_revenue, y = product_detail)) +
   theme_minimal(base_size = 12)
 ```
 
-As shown in @fig-hk-rev, total revenue in Hell’s Kitchen is concentrated among a small set of drinks, with a clear drop-off after the top-ranked items. The highest-earning products include premium coffees and larger-size beverages, suggesting that both higher unit prices and steady demand contribute to revenue. This figure highlights the key drivers of takings and provides an evidence-based starting point for deciding which drinks should be prioritised for menu placement and promotion.
+@fig-hk-rev shows a clear drop-off in revenue after the top-ranked items. Highest-earning products include premium coffees and larger-size beverages, suggesting that both higher unit prices and steady demand contribute to revenue.
 
 ```{r}
 #| label: tbl-hk-rev
-#| tbl-cap: "top 10 drinks by total revenue (hell’s kitchen)"
+#| tbl-cap: "Top 10 Drinks By Total Revenue (Hell’s Kitchen)"
 
 tab_rev <- coffee_sales_clean |>
   arrange(desc(total_revenue)) |>
@@ -258,11 +258,11 @@ tab_rev <- coffee_sales_clean |>
 knitr::kable(tab_rev, digits = 2)
 ```
 
-@tbl-hk-rev highlights that the Civet Cat generated the highest total revenue in Hell’s Kitchen (\$7,380), followed by Sustainably Grown Organic Lg (\$7,329.25) and Dark chocolate Lg (\$6,534). Brazilian Lg and Ethiopia Lg also performed strongly (\$5,432 each), suggesting consistent high earners.
+@tbl-hk-rev highlights that the Civet Cat generated the highest total revenue in Hell’s Kitchen (\$7,380), followed by Sustainably Grown Organic Lg (\$7,329.25) and Dark chocolate Lg (\$6,534). Brazilian Lg and Ethiopia Lg also performed strongly (\$5,432 each).
 
 ```{r}
 #| label: tbl-hk-pop
-#| tbl-cap: "top 10 drinks by total quantity sold (hell’s kitchen)"
+#| tbl-cap: "Top 10 Drinks By Total Quantity Sold (Hell’s Kitchen)"
 
 tab_pop <- coffee_sales_clean |>
   arrange(desc(total_qty)) |>
@@ -276,7 +276,7 @@ tab_pop <- coffee_sales_clean |>
 knitr::kable(tab_pop, digits = 2)
 ```
 
-@tbl-hk-pop shows that the Ouro Brasileiro shot was the most popular item (1,854 units), followed by Serenity Green Tea Rg (1,601) and Morning Sunrise Chai Rg (1,589). Brazilian Lg, Ethiopia Lg, and Sustainably Grown Organic Lg appear as both high-volume sellers and high-revenue items, making them strong Core Menu choices.
+@tbl-hk-pop shows that the Ouro Brasileiro shot was the most popular (1,854 sold). Brazilian Lg, Ethiopia Lg, and Sustainably Grown Organic Lg appear as both high-volume sellers and high-revenue items.
 
 # Discussion
 
@@ -288,11 +288,7 @@ Taken together, @tbl-hk-rev and @tbl-hk-pop support a two-tier menu strategy for
 
 # Conclusion
 
-Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
-
-Furthermore, our analysis also examined the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns. All three locations performed similarly in aggregate, with total sales differing by less than 3% over the six-month period. Monthly trends were consistent across locations, with a dip in February followed by sustained growth through to June, indicating that seasonal demand, rather than location-specific factors, is the dominant driver of revenue fluctuations.
-
-Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start.
+After examining the sales performance of Hell's Kitchen, Astoria, and Lower Manhattan, across total sales, transaction behaviour, monthly trends, and hourly patterns; it was found that all three locations performed similarly in aggregate, with total sales differing by less than 3% over the six-month period. Monthly trends were consistent across locations, with a dip in February followed by sustained growth through to June, indicating that seasonal demand, rather than location-specific factors, is the dominant driver of revenue fluctuations. Taking all findings together, **Hell's Kitchen is recommended as the strongest candidate for a new café**. Its more evenly distributed demand and competitive overall sales provide a more stable and sustainable commercial foundation, which are vital for a new café seeking to establish a consistent customer base from the start. Tables @tbl-hk-rev and @tbl-hk-pop together identify the best menu candidates by combining profitability and demand. Items near the top of both tables are strong “core menu” choices because they sell frequently and generate high total revenue, making them reliable for day-to-day operations. Drinks that rank highly in @tbl-hk-rev but not @tbl-hk-pop likely achieve revenue through a higher price point; these are good premium offerings to keep for margin and upselling, but they may require targeted promotion and careful stock planning. Conversely, drinks that are very popular in @tbl-hk-pop but lower in @tbl-hk-rev are dependable volume sellers and can be used as anchors for bundles or add-ons. Overall, a balanced menu should prioritise overlapping winners, then supplement with a small set of premium specials.
 
 # Recommendations
 
