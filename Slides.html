@@ -6,8 +6,8 @@
 <script src="Slides_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-7c69b197886ae2a34062761d21e44731.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.31">
+<link href="Slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Caryn Kesuma">
   <meta name="author" content="Shruti Pillai">
@@ -128,9 +128,7 @@
     }
   </style>
   <script src="Slides_files/libs/kePrint-0.0.1/kePrint.js"></script>
-
   <link href="Slides_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
 </head>
 <body class="quarto-light">
   <div class="reveal">
@@ -175,7 +173,7 @@ Thunchanok Udomittipong
 <section id="dataset-introduction" class="slide level2 small-slide">
 <h2>Dataset Introduction</h2>
 
-<img data-src="Slides_files/figure-revealjs/data-dict.png" width="608" class="r-stretch"></section>
+<img data-src="Slides_files/figure-revealjs/data-dict.png" class="r-stretch"></section>
 <section id="store-location-analysis" class="slide level2">
 <h2>Store Location Analysis</h2>
 <div style="font-size: 0.7em">
@@ -610,80 +608,42 @@ Thunchanok Udomittipong
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
